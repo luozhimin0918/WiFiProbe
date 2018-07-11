@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#f5f5f5"
+    >
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textSize="24px"
+        android:textColor="#888888"
+        android:text="日期"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_curvalue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="24px"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#2d66c8"
+        android:text="本周客流量"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_lastvalue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="24px"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#278132"
+        android:text="上周客流量"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_comparisonvalue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingRight="15dp"
+        android:textSize="24px"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#8aaef7"
+        android:text="对比"
+        android:layout_weight="1" />
+</LinearLayout>

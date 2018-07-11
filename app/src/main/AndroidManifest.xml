@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ums.wifiprobe">
+
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.flash" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name=".app.WPApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/appicon"
+        android:label="@string/app_name"
+        android:largeHeap="false"
+        android:persistent="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.CustomerInfoActivity" android:exported="true"  android:launchMode="singleTask"  android:process=":process2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" android:exported="true">
+        </activity>
+        <activity android:name=".ui.activity.ProtocolActivity" android:exported="true" android:process=":process2">
+        </activity>
+        <activity android:name=".ui.activity.SplashActivity" android:exported="true" android:process=":process2">
+        </activity>
+        <activity android:name=".ui.activity.SettingActivity" android:exported="true" android:process=":process2">
+        </activity>
+        <activity android:name=".ui.activity.ProbeDetailActivity" android:exported="true" android:process=":process2">
+        </activity>
+        <activity android:name=".ui.activity.WhiteListActivity" android:exported="true" android:process=":process2">
+        </activity>
+        <service
+            android:name=".service.ProbeService" android:process=":process2"
+            android:exported="true">
+            <intent-filter android:priority="900" >
+                <action android:name="com.ums.wifiprobeapp.wifiprobeservice" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+
+
+        <receiver android:name=".keepalive.Receiver1" android:exported="true" android:process=":process2"/>
+        <service android:name=".keepalive.Service2" android:exported="true" android:process=":process1"/>
+        <receiver android:name=".keepalive.Receiver2" android:exported="true" android:process=":process1"/>
+
+        <service android:name=".keepalive.Service3" android:exported="true"/>
+
+        <receiver android:name=".receiver.BootCompleteReceiver" android:exported="true" android:process=":process2">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".service.WiFiStateBroadReceiver" android:exported="true" android:process=":process2">
+            <intent-filter>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"></action>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

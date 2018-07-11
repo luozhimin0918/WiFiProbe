@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#fafafa</color>
+    <color name="colorPrimaryDark">#e0e0e0</color>
+    <color name="colorAccent">#10a665</color>
+
+    <color name="colorMain">#10a665</color>
+
+    <color name="colorDark">#2b2b2b</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <color name="button_primary_active">#085496</color>
+
+    <color name="green_background">#65d5ac</color>
+
+    <color name="button_primary">#0963B0</color>
+
+    <color name="red">#DD4F43</color>
+
+    <color name="blue">#36baf8</color>
+
+    <color name="yellow">#f99525</color>
+
+    <color name="green">#FF34A350</color>
+
+    <color name="gray">#bbbbbb</color>
+
+
+    <color name="icon_color">#1c89ba</color>
+
+
+    <color name="colorPrimary1">#3F51B5</color>
+    <color name="colorPrimaryDark1">#303F9F</color>
+    <color name="colorAccent1">#FF4081</color>
+
+    <color name="uvv_green">#ff50b100</color>
+    <color name="uvv_black">#ff000000</color>
+    <color name="uvv_light_gray">#ffF0F0F0</color>
+    <color name="uvv_gray">#ffbbbbbb</color>
+    <color name="uvv_titlebar_bg">#7f000000</color>
+
+    <!--   activity_main_animate_screen 字体颜色/背景颜色               -->
+    <color name="receptiontotal_bg">#3b96ff</color>
+    <color name="receptionlist_title_text">#333333</color>
+    <color name="receptionlist_item_text">#666666</color>
+    <color name="receptionlist_item_divider">#e5e5e5</color>
+    <color name="adlayout_bg">#e2eefa</color>
+
+    <color name="chart_fill_bg1">#ee7672</color>
+    <color name="main_bg">#DDDDDD</color>
+
+    <color name="mainColor">#573567</color>
+
+    <color name="font_gray_b">#d4d4d3</color>
+
+    <color name="font_tab_1">#42369a</color>
+    <color name="font_tab_0">#b1b1b1</color>
+
+
+    <color name="font_common_1">#424242</color>
+    <color name="font_common_2">#a1a1a1</color>
+    <color name="font_blue">#42369a</color>
+
+    <color name="font_green">#00cccc</color>
+
+    <color name="commom_background">#f3f3f3</color>
+
+    <color name="color_activity_bg">#efeff4</color>
+    <color name="color_head_bg">#0080fd</color>
+    <color name="color_text_1">#888888</color>
+    <color name="color_text_2">#222222</color>
+    <color name="color_text_3">#333333</color>
+
+    <color name="macbrand_no1">#ff7b7b</color>
+    <color name="macbrand_no2">#007d90</color>
+    <color name="macbrand_no3">#00bfe6</color>
+    <color name="macbrand_no4">#c88fb6</color>
+    <color name="macbrand_no5">#a2dcb6</color>
+    <color name="macbrand_no6">#ffc107</color>
+    <color name="macbrand_no7">#538135</color>
+
+
+    <drawable name="button_no_enable">#808080</drawable>
+</resources>

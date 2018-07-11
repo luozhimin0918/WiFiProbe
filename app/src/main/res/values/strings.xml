@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">客流分析</string>
+    <string name="advanced_function">客群画像</string>
+    <string name="whitelist_hint">例如:35:1D:FA:2A:B5:36</string>
+    <string name="whitelist_detail">白名单里的MAC将不计入客流。推荐将店员的手机MAC加入白名单。安卓手机查看MAC：设置—关于手机—状态—WLAN MAC地址，苹果手机查看MAC：设置—通用—关于本机—无线局域网地址</string>
+
+    <string name="function_support_uservice_unsupport">"检测到服务版本过低，暂不支持采集客流数据.请先升级服务"</string>
+    <string name="function_support_device_unsupport">"检测到系统版本过低，暂不支持采集客流数据.请联系客户经理"</string>
+
+
+    <!--chartview-->
+    <string name="chart_customer_total">客流量</string>
+    <string name="chart_customer_newold">新老客</string>
+    <string name="chart_macbrand">品牌</string>
+    <string name="listview_customer_detail">报表详情</string>
+
+    <!--DetailListView-->
+    <string name="detaillist_baseunit_hour">小时</string>
+    <string name="detaillist_baseunit_date">日期</string>
+    <string name="detaillist_customernumber_last_day">昨日客流量</string>
+    <string name="detaillist_customernumber_last_week">上周客流量</string>
+    <string name="detaillist_customernumber_last_month">上月客流量</string>
+    <string name="detaillist_customernumber_cur_day">今日客流量</string>
+    <string name="detaillist_customernumber_cur_week">本周客流量</string>
+    <string name="detaillist_customernumber_cur_month">本月客流量</string>
+    <string name="detaillist_customernumber_comparison">涨幅</string>
+
+    <!--DetailListView-->
+    <string name="totalview_customernumber_total">客流量</string>
+    <string name="totalview_customernumber_new">新客</string>
+    <string name="totalview_customernumber_old">老客</string>
+    <string name="totalview_customernumber_lasttime">5分钟内客流</string>
+
+</resources>

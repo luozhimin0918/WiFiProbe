@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">客流分析</string>
+    <string name="reward_app_name">客流分析</string>
+    <string name="reward_title">打赏一下</string>
+    <string name="reward_amount_title">打赏金额</string>
+    <string-array name="reward_des_array">
+        <item>打赏不准超过你工资的一半</item>
+        <item>您打赏的一小步，是我们进步的一大步( •̀ ω •́ )</item>
+        <item>最喜欢你一言不合就打赏的样子了~~~么么!</item>
+        <item>听说，打赏我的人最后都找到了真爱。</item>
+    </string-array>
+    <string name="reward_amount_custom">其他金额</string>
+    <integer-array name="reward_amount_array">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </integer-array>
+    <string name="reward_btn_name">赏一个</string>
+
+    <string name="reward_dialog_btn_name">好的</string>
+</resources>

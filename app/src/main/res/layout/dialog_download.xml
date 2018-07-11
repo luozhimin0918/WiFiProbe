@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_round_white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="12dp"
+        android:layout_marginTop="12dp"
+        android:text="正在下载..."
+        android:textSize="16sp"
+        android:textColor="@color/color_text_2"/>
+
+
+    <com.ums.wifiprobe.ui.customview.numberprogressbar.NumberProgressBar
+        android:id="@+id/numberbar"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        custom:progress_current="0"
+        android:layout_width="match_parent"
+        style="@style/NumberProgressBar_Passing_Green"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f3f3f3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_dialog_left_white"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="12sp"
+            android:textColor="#888580"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#f3f3f3"/>
+
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_dialog_right_white"
+            android:gravity="center"
+            android:layout_weight="1.0"
+            android:text="隐藏"
+            android:textSize="12sp"
+            android:textColor="@color/color_head_bg"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
