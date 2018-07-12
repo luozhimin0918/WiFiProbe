@@ -1,10 +1,10 @@
 package com.ums.wifiprobe.ui.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,7 +25,7 @@ import butterknife.Unbinder;
  * Created by chenzhy on 2017/9/21.
  */
 
-public abstract class NewBaseActivity extends AppCompatActivity implements WPApplication.LocationChangedListener {
+public abstract class NewBaseActivity extends Activity implements WPApplication.LocationChangedListener {
 
     protected static final String TAG = "WiFiProbe-Activity";
     protected Unbinder unbinder;
