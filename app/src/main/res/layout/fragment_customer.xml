@@ -283,6 +283,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
+                        android:textColor="@color/slidingColorUnSeleced"
                         android:text="5分钟内客流    0"
                         />
                 </LinearLayout>
@@ -302,7 +303,7 @@
                         android:orientation="vertical">
 
                         <TextView
-
+                            android:textColor="@color/slidingColorUnSeleced"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="客流量" />
@@ -334,6 +335,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:textColor="@color/slidingColorUnSeleced"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="新客" />
@@ -365,6 +367,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:textColor="@color/slidingColorUnSeleced"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="老客" />
@@ -397,6 +400,7 @@
                         android:src="@mipmap/icon_customer0" />
 
                     <TextView
+                        android:textColor="@color/slidingColorUnSeleced"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -533,6 +537,7 @@
                         android:src="@mipmap/icon_customer_new" />
 
                     <TextView
+                        android:textColor="@color/slidingColorUnSeleced"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -658,6 +663,7 @@
                             android:src="@mipmap/icon_mobile" />
 
                         <TextView
+                            android:textColor="@color/slidingColorUnSeleced"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -718,6 +724,7 @@
                             android:layout_marginLeft="20dp"/>
 
                         <TextView
+                            android:textColor="@color/slidingColorUnSeleced"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
