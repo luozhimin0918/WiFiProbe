@@ -52,7 +52,6 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
     private List<String> list_title;                                     //tab名称列表
     private PassengerFlowTraFragment passengerFlowTraFragment;
     private PassengerFlowDataFragment passengerFlowDataFragment;
-    private DataBaseInitWorkTask mDataBaseInitWorkTask;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +68,11 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
             finish();
             return;
         }
-        checkDatabase();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDataBaseInitWorkTask = null;
 
     }
 
@@ -166,10 +163,5 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
     }
 
 
-    private void checkDatabase() {
-        if (!GlobalValueManager.getInstance().isCheckDatabase(System.currentTimeMillis())) {
-            mDataBaseInitWorkTask = new DataBaseInitWorkTask();
-            mDataBaseInitWorkTask.execute();
-        }
-    }
+
 }

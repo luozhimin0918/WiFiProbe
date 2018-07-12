@@ -48,6 +48,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.ums.wifiprobe.AppProtocolInfo;
 import com.ums.wifiprobe.R;
+import com.ums.wifiprobe.app.DataBaseInitWorkTask;
 import com.ums.wifiprobe.app.GlobalValueManager;
 import com.ums.wifiprobe.service.ProbeService;
 import com.ums.wifiprobe.service.greendao.MacTotalInfo;
@@ -213,6 +214,7 @@ public class PassengerFlowDataFragment extends Fragment implements View.OnClickL
             mRootView = new WeakReference<View>(view);
             mContext=getContext();
             ButterKnife.bind(this,view);
+            checkDatabase();
             initView();
             initData();
         } else {
@@ -223,6 +225,13 @@ public class PassengerFlowDataFragment extends Fragment implements View.OnClickL
         }
         return mRootView.get();
 
+    }
+    private DataBaseInitWorkTask mDataBaseInitWorkTask;
+    private void checkDatabase() {
+        if (!GlobalValueManager.getInstance().isCheckDatabase(System.currentTimeMillis())) {
+            mDataBaseInitWorkTask = new DataBaseInitWorkTask();
+            mDataBaseInitWorkTask.execute();
+        }
     }
 
     private void initView() {
@@ -629,6 +638,7 @@ public class PassengerFlowDataFragment extends Fragment implements View.OnClickL
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mDataBaseInitWorkTask = null;
         presenter.stop();
         presenter.end();
         presenter.setView(null);
