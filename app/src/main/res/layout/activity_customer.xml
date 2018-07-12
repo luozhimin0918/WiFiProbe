@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/head_part"
         android:layout_width="match_parent"
         android:layout_height="80dp"

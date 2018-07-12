@@ -209,7 +209,7 @@ public class PassengerFlowDataFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null || mRootView.get() == null) {
-            view = inflater.inflate(R.layout.activity_customer, null);
+            view = inflater.inflate(R.layout.fragment_customer, null);
             mRootView = new WeakReference<View>(view);
             mContext=getContext();
             ButterKnife.bind(this,view);
