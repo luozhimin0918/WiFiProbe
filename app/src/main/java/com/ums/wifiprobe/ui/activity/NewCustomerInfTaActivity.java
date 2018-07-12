@@ -1,6 +1,7 @@
 package com.ums.wifiprobe.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.ums.wifiprobe.AppProtocolInfo;
 import com.ums.wifiprobe.R;
+import com.ums.wifiprobe.app.DataBaseInitWorkTask;
+import com.ums.wifiprobe.app.GlobalValueManager;
 import com.ums.wifiprobe.ui.customview.ControlScrollViewPager;
 import com.ums.wifiprobe.ui.fragment.PassengerFlowDataFragment;
 import com.ums.wifiprobe.ui.fragment.PassengerFlowTraFragment;
@@ -48,14 +52,31 @@ public class NewCustomerInfTaActivity extends BaseActivity implements View.OnCli
     private List<String> list_title;                                     //tab名称列表
     private PassengerFlowTraFragment passengerFlowTraFragment;
     private PassengerFlowDataFragment passengerFlowDataFragment;
+    private DataBaseInitWorkTask mDataBaseInitWorkTask;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!GlobalValueManager.getInstance().isAgreeProtocol()) {
+            Intent intent = new Intent(getBaseContext(), SplashActivity.class);
+            Bundle bundle = new Bundle();
+            try {
+                bundle.putSerializable("appinfo", new AppProtocolInfo(getString(R.string.app_name), getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName, "protocol.txt",R.mipmap.appicon));
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+            return;
+        }
+        checkDatabase();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mDataBaseInitWorkTask = null;
+
     }
 
     @Override
@@ -63,13 +84,13 @@ public class NewCustomerInfTaActivity extends BaseActivity implements View.OnCli
         passengerFlowTraFragment=new PassengerFlowTraFragment();
         passengerFlowDataFragment=new PassengerFlowDataFragment();
         list_fragment=new ArrayList<Fragment>();
-        list_fragment.add(passengerFlowTraFragment);
-
         list_fragment.add(passengerFlowDataFragment);
+
+        list_fragment.add(passengerFlowTraFragment);
         //tab title List
         list_title=new ArrayList<String>();
-        list_title.add("客流交易数据");
         list_title.add("  客流数据  ");
+        list_title.add("客流交易数据");
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         tabMain.setViewPager(viewPager);
         tabMain.setOnTabSelectListener(this);
@@ -144,4 +165,11 @@ public class NewCustomerInfTaActivity extends BaseActivity implements View.OnCli
         }
     }
 
+
+    private void checkDatabase() {
+        if (!GlobalValueManager.getInstance().isCheckDatabase(System.currentTimeMillis())) {
+            mDataBaseInitWorkTask = new DataBaseInitWorkTask();
+            mDataBaseInitWorkTask.execute();
+        }
+    }
 }
