@@ -27,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.bingoogolapple.badgeview.BGABadgeImageButton;
 
 
 /**
@@ -36,8 +37,9 @@ import butterknife.OnClick;
 public class NewCustomerInfTaActivity extends NewBaseActivity implements View.OnClickListener,OnTabSelectListener {
 
 
-    @BindView(R.id.head_setting)
-    ImageView headSetting;
+
+    BGABadgeImageButton bgaBadgeImageButton;
+
     @BindView(R.id.h5_app_name)
     TextView h5AppName;
     @BindView(R.id.head_advanced)
@@ -78,6 +80,12 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
 
     @Override
     public void initView() {
+        bgaBadgeImageButton = (BGABadgeImageButton) findViewById(R.id.head_setting);
+        if(!GlobalValueManager.getInstance().isRewardOpened()){
+            bgaBadgeImageButton.showCirclePointBadge();
+        }else{
+            bgaBadgeImageButton.hiddenBadge();
+        }
         passengerFlowTraFragment=new PassengerFlowTraFragment();
         passengerFlowDataFragment=new PassengerFlowDataFragment();
         list_fragment=new ArrayList<Fragment>();
@@ -125,6 +133,8 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.head_setting:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.head_advanced:
                 break;
