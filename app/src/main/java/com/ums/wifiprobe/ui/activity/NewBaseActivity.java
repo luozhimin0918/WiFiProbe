@@ -1,17 +1,11 @@
 package com.ums.wifiprobe.ui.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.ums.wifiprobe.app.WPApplication;
@@ -19,14 +13,10 @@ import com.ums.wifiprobe.data.BrandTotalDataRepository;
 import com.ums.wifiprobe.data.ProbeInfoDataRepository;
 import com.ums.wifiprobe.data.ProbeTotalDataRepository;
 import com.ums.wifiprobe.service.BaseProbeDataManager;
-import com.ums.wifiprobe.service.ProbeService;
 import com.ums.wifiprobe.service.ProbeServiceConstant;
-import com.ums.wifiprobe.ui.customview.CommonDialog;
 import com.ums.wifiprobe.ui.customview.OnDialogCloseListener;
 import com.ums.wifiprobe.utils.ClearDataUtils;
 import com.ums.wifiprobe.utils.DialogUtil;
-
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -35,7 +25,7 @@ import butterknife.Unbinder;
  * Created by chenzhy on 2017/9/21.
  */
 
-public abstract class BaseActivity extends Activity implements WPApplication.LocationChangedListener {
+public abstract class NewBaseActivity extends AppCompatActivity implements WPApplication.LocationChangedListener {
 
     protected static final String TAG = "WiFiProbe-Activity";
     protected Unbinder unbinder;
@@ -83,13 +73,13 @@ public abstract class BaseActivity extends Activity implements WPApplication.Loc
         Log.d(TAG,"两次之间的距离=" + distance );
 
         if (distance > ProbeServiceConstant.locationDistance || distance < -1 * ProbeServiceConstant.locationDistance) {
-            DialogUtil.showDialog(BaseActivity.this, "历史数据清除", "距上次探测距离已超过" + ProbeServiceConstant.locationDistance + "米，是否清除上次数据？", new OnDialogCloseListener() {
+            DialogUtil.showDialog(NewBaseActivity.this, "历史数据清除", "距上次探测距离已超过" + ProbeServiceConstant.locationDistance + "米，是否清除上次数据？", new OnDialogCloseListener() {
                 @Override
                 public void onClick(Dialog dialog, boolean confirm) {
                     if (confirm) {
 
                         synchronized (WPApplication.gDaoSession) {
-                            new ClearDataUtils(BaseActivity.this).clearDatabases();
+                            new ClearDataUtils(NewBaseActivity.this).clearDatabases();
                             BaseProbeDataManager.localMap.clear();
                             ProbeInfoDataRepository.getInstance().clearTasks();
                             ProbeTotalDataRepository.getInstance().clearTasks();
@@ -98,7 +88,7 @@ public abstract class BaseActivity extends Activity implements WPApplication.Loc
                             sendBroadcast(new Intent(ProbeServiceConstant.RECEIVER_ACTION_CLEAR_QUEEN_DATA));
                             CacheClearComplete();
                         }
-                        Toast.makeText(BaseActivity.this, "历史数据清除成功", Toast.LENGTH_LONG).show();
+                        Toast.makeText(NewBaseActivity.this, "历史数据清除成功", Toast.LENGTH_LONG).show();
                     }
                 }
             });

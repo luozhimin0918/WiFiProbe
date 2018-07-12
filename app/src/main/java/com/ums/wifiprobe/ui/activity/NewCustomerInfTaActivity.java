@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by luozhimin on 2018/6/29.
  */
 
-public class NewCustomerInfTaActivity extends BaseActivity implements View.OnClickListener,OnTabSelectListener {
+public class NewCustomerInfTaActivity extends NewBaseActivity implements View.OnClickListener,OnTabSelectListener {
 
 
     @BindView(R.id.head_setting)

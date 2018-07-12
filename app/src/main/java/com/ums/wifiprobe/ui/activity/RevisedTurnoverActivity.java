@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * Created by luozhimin on 2018/6/29.
  */
 
-public class RevisedTurnoverActivity extends BaseActivity implements View.OnClickListener {
+public class RevisedTurnoverActivity extends NewBaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.status_bar)
