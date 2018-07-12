@@ -288,6 +288,7 @@ public class PassengerFlowDataFragment extends Fragment implements View.OnClickL
             presenter.start();
         }
         initChartData();
+        presenter.updateDayChartData(curDate);
     }
 
 
