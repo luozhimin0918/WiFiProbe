@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">客流分析</string>
     <string name="advanced_function">客群画像</string>
+    <string name="advanced_function_height">高阶版入口</string>
     <string name="whitelist_hint">例如:35:1D:FA:2A:B5:36</string>
     <string name="whitelist_detail">白名单里的MAC将不计入客流。推荐将店员的手机MAC加入白名单。安卓手机查看MAC：设置—关于手机—状态—WLAN MAC地址，苹果手机查看MAC：设置—通用—关于本机—无线局域网地址</string>
 

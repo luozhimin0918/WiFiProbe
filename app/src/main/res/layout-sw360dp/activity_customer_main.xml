@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/head_part"
+        android:paddingTop="20dp"
+        android:orientation="horizontal"
+        android:background="@color/blue"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="60dp">
+        <ImageView
+            android:id="@+id/head_setting"
+            android:src="@mipmap/setting"
+            android:scaleType="center"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/h5_app_name"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="40px" />
+
+        <LinearLayout
+            android:id="@+id/head_advanced"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/advanced_function"
+                android:textColor="#333333 "
+                android:background="@null"
+                android:clickable="false"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content">
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tab_main"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        tl:tl_divider_color="@color/white"
+        tl:tl_divider_padding="0dp"
+        tl:tl_divider_width="0px"
+        tl:tl_indicator_color="@color/slidingColorSeleced"
+        tl:tl_indicator_height="3dp"
+        tl:tl_indicator_width="60dp"
+        tl:tl_indicator_corner_radius="1dp"
+        tl:tl_indicator_width_equal_title="false"
+        tl:tl_tab_padding="15dp"
+        tl:tl_tab_space_equal="false"
+        tl:tl_textSelectColor="@color/slidingColorSeleced"
+        tl:tl_textUnselectColor="@color/slidingColorUnSeleced"
+        tl:tl_textsize="16sp"
+        tl:tl_underline_color="@color/white"
+        tl:tl_underline_height="0px" />
+
+    </LinearLayout>
+
+    <com.ums.wifiprobe.ui.customview.ControlScrollViewPager
+        android:id="@+id/view_pager"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.ums.wifiprobe.ui.customview.ControlScrollViewPager>
+</LinearLayout>

@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+        //时间
+      <LinearLayout
+          android:paddingRight="10dp"
+          android:paddingLeft="10dp"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:layout_width="match_parent"
+          android:layout_height="50dp">
+          <TextView
+              android:text="时间"
+              android:textSize="14sp"
+              android:textColor="@color/normalTextColor"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+          <TextView
+              android:id="@+id/dateDoubleSelect"
+              android:layout_marginLeft="10dp"
+              android:text="2018-06-06 - 2018-06-07"
+              android:textSize="13sp"
+              android:layout_weight="1"
+              android:textColor="@color/normalTextColor"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
+          <Button
+              android:id="@+id/chang_Tari_button"
+              android:layout_width="wrap_content"
+              android:layout_height="30dp"
+              android:textColor="@color/white"
+              android:textSize="14sp"
+              android:background="@drawable/shape_chang_btn_trai"
+              android:text="修正交易额"/>
+
+      </LinearLayout>
+        //分割线
+      <LinearLayout
+            android:background="#FFDEDEDE"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"></LinearLayout>
+        //交易金额All
+      <LinearLayout
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+          <ImageView
+              android:src="@mipmap/icon1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+
+          <LinearLayout
+              android:layout_marginLeft="10dp"
+              android:orientation="horizontal"
+              android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              //交易金额
+              <LinearLayout
+                  android:layout_weight="1"
+                  android:orientation="vertical"
+                  android:gravity="center_vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                         <TextView
+                             android:text="交易金额"
+                             android:textColor="@color/smalNormalTextColor"
+                             android:textSize="12sp"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_marginLeft="5dp"
+                            android:src="@mipmap/icon_question_mark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                      <TextView
+                          android:id="@+id/tariMoneyZong"
+                          android:layout_weight="1"
+                          android:text="0"
+                          android:textColor="@color/normalTextColor"
+                          android:textSize="19sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+                        <ImageView
+                            android:src="@mipmap/icon_arr_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                      <TextView
+                          android:text="10%"
+                          android:textColor="@color/smalNumTextRed"
+                          android:textSize="10sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="同比上周日均"
+                            android:textColor="@color/smallTextGey"
+                            android:textSize="11sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+              </LinearLayout>
+              //修正交易金额
+              <LinearLayout
+                  android:layout_marginLeft="5dp"
+                  android:layout_weight="1"
+                  android:orientation="vertical"
+                  android:gravity="center_vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                  <LinearLayout
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+                      <TextView
+                          android:text="修正交易金额"
+                          android:textColor="@color/smalNormalTextColor"
+                          android:textSize="12sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                      <ImageView
+                          android:layout_marginLeft="5dp"
+                          android:src="@mipmap/icon_question_mark"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                  </LinearLayout>
+                  <TextView
+                      android:id="@+id/xiuzhenTariMoney"
+                      android:layout_weight="1"
+                      android:text="0"
+                      android:textColor="@color/normalTextColor"
+                      android:textSize="19sp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent" />
+                  <LinearLayout
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+                      <ImageView
+                          android:src="@mipmap/icon_arr_bottom"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                      <TextView
+                          android:text="10%"
+                          android:textColor="@color/smalNumTextRed"
+                          android:textSize="10sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                      <TextView
+                          android:text="同比上周日均"
+                          android:textColor="@color/smallTextGey"
+                          android:textSize="11sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+
+                  </LinearLayout>
+              </LinearLayout>
+              //修正比例
+              <LinearLayout
+                  android:layout_marginLeft="5dp"
+                  android:layout_weight="1.2"
+                  android:orientation="vertical"
+                  android:gravity="center_vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+                  <LinearLayout
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+                      <TextView
+                          android:text="修正比例"
+                          android:textColor="@color/smalNormalTextColor"
+                          android:textSize="12sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" />
+                  </LinearLayout>
+                  <LinearLayout
+                      android:layout_weight="1"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent">
+                      <TextView
+                          android:id="@+id/xiuzhenBili"
+                          android:text="0"
+                          android:textColor="@color/normalTextColor"
+                          android:textSize="19sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent" />
+                      <TextView
+                          android:text="%"
+                          android:textColor="@color/normalTextColor"
+                          android:textSize="19sp"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_weight="1"
+                      android:gravity="center_vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+
+
+                  </LinearLayout>
+              </LinearLayout>
+
+
+          </LinearLayout>
+      </LinearLayout>
+
+        //分割线
+        <LinearLayout
+            android:background="#FFDEDEDE"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"></LinearLayout>
+
+        //客流数量All
+        <LinearLayout
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:src="@mipmap/icon2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                //客流数量
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:id="@+id/easy_mess_ke_num"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="客流数量"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/question_mark_Keliu_num"
+                            android:src="@mipmap/icon_question_mark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/keliuNum"
+                        android:layout_weight="1"
+                        android:text="450"
+                        android:textColor="@color/normalTextColor"
+                        android:textSize="19sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:src="@mipmap/icon_arr_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="10%"
+                            android:textColor="@color/smalNumTextRed"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="同比上周日均"
+                            android:textColor="@color/smallTextGey"
+                            android:textSize="11sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                //商铺占地面积
+                <LinearLayout
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="商铺占地面积"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/shanpuMianji"
+                            android:text="0"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="19sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="㎡"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="19sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                     <!--   <ImageView
+                            android:src="@mipmap/icon_arr_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="10%"
+                            android:textColor="@color/smalNumTextRed"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="同比上周日均"
+                            android:textColor="@color/smallTextGey"
+                            android:textSize="11sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />-->
+
+                    </LinearLayout>
+                </LinearLayout>
+                //商铺坪效
+                <LinearLayout
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="商铺坪效"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/shanPuPinxiao"
+                            android:text="0"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="元/㎡"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="15sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        //分割线
+        <LinearLayout
+            android:background="#FFDEDEDE"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"></LinearLayout>
+        //客流单价All
+        <LinearLayout
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:src="@mipmap/icon3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                //客流单价
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="客流单价"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_marginLeft="5dp"
+                            android:src="@mipmap/icon_question_mark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/keliuPrice"
+                            android:text="0"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="19sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="元/千人"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:src="@mipmap/icon_arr_above"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="10%"
+                            android:textColor="@color/smalNumTextGree"
+                            android:textSize="10sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="同比上周日均"
+                            android:textColor="@color/smallTextGey"
+                            android:textSize="11sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                //修正客流单价
+                <LinearLayout
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="修正客流单价"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/xiuzhenKeliuPrice"
+                            android:text="0"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="19sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="元/千人"
+                            android:textColor="@color/normalTextColor"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                          <ImageView
+                               android:src="@mipmap/icon_arr_above"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:text="10%"
+                               android:textColor="@color/smalNumTextGree"
+                               android:textSize="10sp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+                           <TextView
+                               android:text="同比上周日均"
+                               android:textColor="@color/smallTextGey"
+                               android:textSize="11sp"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                </LinearLayout>
+                //wu
+                <LinearLayout
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                  <!--  <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="商铺坪效"
+                            android:textColor="@color/smalNormalTextColor"
+                            android:textSize="12sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="326元/m"
+                        android:textColor="@color/normalTextColor"
+                        android:textSize="19sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+
+                    </LinearLayout>-->
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        //分割线
+        <LinearLayout
+            android:background="#FFDEDEDE"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"></LinearLayout>
+        <LinearLayout
+            android:background="@color/optionBgColor"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="45dp">
+            <TextView
+                android:textSize="17sp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/slidingColorUnSeleced"
+                android:text="客流交易数据趋势图"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        //分割线
+        <LinearLayout
+            android:background="#FFDEDEDE"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                   <RadioButton
+                       android:id="@+id/radioToday"
+                       android:text="今日"
+                       android:textSize="14sp"
+                       android:button="@null"
+                       android:textColor="@drawable/button_press_blue__select"
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent" />
+                   <RadioButton
+                       android:id="@+id/radioWeek"
+                       android:layout_marginLeft="20dp"
+                       android:text="本周"
+                       android:textSize="14sp"
+                       android:button="@null"
+                       android:checked="true"
+                       android:textColor="@drawable/button_press_blue__select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                    <RadioButton
+                        android:id="@+id/radioMonth"
+                        android:layout_marginLeft="20dp"
+                        android:text="本月"
+                        android:textSize="14sp"
+                        android:button="@null"
+                        android:textColor="@drawable/button_press_blue__select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </RadioGroup>
+
+                <LinearLayout
+
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="#49A9EE"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp" />
+                    <TextView
+                        android:textSize="11sp"
+                        android:text="本周数据"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/smalNormalTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginLeft="15dp"
+                        android:background="#98D87D"
+                        android:layout_width="7dp"
+                        android:layout_height="7dp" />
+                    <TextView
+                        android:textSize="11sp"
+                        android:text="上周数据"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/smalNormalTextColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </RelativeLayout>
+          <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_bar_mulp"
+            android:layout_width="match_parent"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:layout_marginBottom="20dp"
+            android:layout_height="210dp"
+            android:background="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

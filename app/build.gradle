@@ -65,4 +65,6 @@ dependencies {
     implementation 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
     annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
     implementation project(':reward')
+    implementation project(':FlycoTabLayout_Lib')
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

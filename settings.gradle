@@ -1,1 +1,1 @@
-include ':app', ':LibMarsdaemon', ':reward'
+include ':app', ':LibMarsdaemon', ':reward','FlycoTabLayout_Lib'

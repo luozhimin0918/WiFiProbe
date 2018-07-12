@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ import butterknife.Unbinder;
  * Created by chenzhy on 2017/9/21.
  */
 
-public abstract class BaseActivity extends Activity implements WPApplication.LocationChangedListener {
+public abstract class BaseActivity extends AppCompatActivity implements WPApplication.LocationChangedListener {
 
     protected static final String TAG = "WiFiProbe-Activity";
     protected Unbinder unbinder;

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+   <LinearLayout
+       android:id="@+id/status_bar"
+       android:orientation="vertical"
+       android:background="@color/blue"
+       android:layout_width="match_parent"
+       android:layout_height="27dp">
+   </LinearLayout>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:gravity="center_vertical"
+       android:layout_height="40dp">
+      <LinearLayout
+          android:id="@+id/head_back"
+          android:layout_width="80dp"
+          android:focusable="true"
+          android:clickable="true"
+          android:gravity="center_vertical"
+          android:layout_height="match_parent">
+         <ImageButton
+             android:layout_marginLeft="15dp"
+             android:background="@mipmap/icon_back"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+      </LinearLayout>
+
+      <TextView
+          android:layout_weight="1"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
+      <TextView
+          android:id="@+id/ChangSubmit"
+          android:layout_marginRight="15dp"
+          android:textColor="@color/receptionlist_title_text"
+          android:textSize="18sp"
+          android:text="修正交易额"
+          android:gravity="center_vertical"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent" />
+   </LinearLayout>
+   <View
+       android:background="@color/changLinercolor"
+       android:layout_width="match_parent"
+       android:layout_height="0.3dp" />
+   //修正交易数据
+   <LinearLayout
+       android:background="@color/OptionBgColorTo"
+       android:layout_width="match_parent"
+       android:gravity="center_vertical"
+       android:layout_height="45dp">
+      <TextView
+          android:text="修正交易数据"
+          android:layout_marginLeft="15dp"
+          android:textColor="@color/slidingColorUnSeleced"
+          android:textSize="17sp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+   </LinearLayout>
+
+   //修正金额
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:focusable="true"
+       android:focusableInTouchMode="true"
+       android:layout_height="wrap_content">
+       <TextView
+           android:text="修正金额"
+           android:textSize="16sp"
+           android:layout_margin="15dp"
+           android:textColor="@color/receptionlist_title_text"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content" />
+       <EditText
+           android:id="@+id/edit_query"
+           android:textColor="@color/blue"
+           android:hint="请输入修正交易金额"
+           android:background="@null"
+           android:inputType="numberDecimal"
+           android:gravity="center"
+           android:textColorHint="#CCCCCC"
+           android:layout_width="match_parent"
+           android:layout_height="40dp" />
+      <View
+         android:background="#EDEDED"
+         android:layout_marginLeft="15dp"
+         android:layout_marginRight="15dp"
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"/>
+      <LinearLayout
+          android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+         <LinearLayout
+             android:layout_weight="1"
+             android:layout_marginLeft="15dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+             <TextView
+                 android:text="默认交易金额"
+                 android:textSize="15sp"
+                 android:textColor="@color/slidingColorUnSeleced"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/moneyZong"
+                android:text="0"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/receptionlist_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+         </LinearLayout>
+         <LinearLayout
+             android:layout_marginRight="15dp"
+             android:layout_weight="1"
+             android:gravity="right"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/changEn"
+                android:text="修正交易金额"
+                android:textSize="15sp"
+                android:textColor="@color/slidingColorUnSeleced"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/xiuzhenNumStr"
+                android:text=""
+                android:layout_toRightOf="@+id/changEn"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/receptionlist_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+         </LinearLayout>
+      </LinearLayout>
+   </LinearLayout>
+
+   <View
+      android:background="@color/OptionBgColorTo"
+       android:layout_width="match_parent"
+       android:layout_height="10dp"></View>
+
+   //修正比例
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:focusable="true"
+       android:focusableInTouchMode="true"
+       android:layout_height="wrap_content">
+      <TextView
+          android:text="修正比例"
+          android:textSize="16sp"
+          android:layout_margin="15dp"
+          android:textColor="@color/receptionlist_title_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      <EditText
+          android:id="@+id/edit_query_bilie"
+          android:textColor="@color/blue"
+          android:hint="请输入修正比例"
+          android:background="@null"
+          android:inputType="numberDecimal"
+          android:gravity="center"
+          android:textColorHint="#CCCCCC"
+          android:layout_width="match_parent"
+          android:layout_height="40dp" />
+      <View
+          android:background="#EDEDED"
+          android:layout_marginLeft="15dp"
+          android:layout_marginRight="15dp"
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"/>
+      <LinearLayout
+          android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+         <LinearLayout
+             android:layout_weight="1"
+             android:layout_marginLeft="15dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+            <TextView
+                android:text="修正比例"
+                android:textSize="15sp"
+                android:textColor="@color/slidingColorUnSeleced"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/xiuzhenBulieStr"
+                android:text="0%"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/receptionlist_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+         </LinearLayout>
+
+      </LinearLayout>
+   </LinearLayout>
+
+   //录用商户占地面积
+   <LinearLayout
+       android:background="@color/OptionBgColorTo"
+       android:layout_width="match_parent"
+       android:gravity="center_vertical"
+       android:layout_height="45dp">
+      <TextView
+          android:text="录用商户占地面积"
+          android:layout_marginLeft="15dp"
+          android:textColor="@color/slidingColorUnSeleced"
+          android:textSize="17sp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+   </LinearLayout>
+
+   //占地面积（㎡）
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:focusable="true"
+       android:focusableInTouchMode="true"
+       android:layout_height="wrap_content">
+      <TextView
+          android:text="占地面积（㎡）"
+          android:textSize="16sp"
+          android:layout_margin="15dp"
+          android:textColor="@color/receptionlist_title_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      <EditText
+          android:id="@+id/edit_query_mianji"
+          android:textColor="@color/blue"
+          android:hint="请输入商户占地面积"
+          android:background="@null"
+          android:inputType="number"
+          android:gravity="center"
+          android:textColorHint="#CCCCCC"
+          android:layout_width="match_parent"
+          android:layout_height="40dp" />
+      <View
+          android:background="#EDEDED"
+          android:layout_marginLeft="15dp"
+          android:layout_marginRight="15dp"
+          android:layout_width="match_parent"
+          android:layout_height="0.5dp"/>
+      <LinearLayout
+          android:layout_marginTop="10dp"
+          android:layout_marginBottom="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+         <LinearLayout
+             android:layout_weight="1"
+             android:layout_marginLeft="15dp"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+            <TextView
+                android:text="商户占地面积"
+                android:textSize="15sp"
+                android:textColor="@color/slidingColorUnSeleced"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/zhandiMianji"
+                android:text="0㎡"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/receptionlist_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+         </LinearLayout>
+
+      </LinearLayout>
+   </LinearLayout>
+   <View
+       android:background="@color/OptionBgColorTo"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"></View>
+</LinearLayout>
