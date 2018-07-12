@@ -21,6 +21,7 @@ import com.ums.wifiprobe.app.GlobalValueManager;
 import com.ums.wifiprobe.ui.customview.ControlScrollViewPager;
 import com.ums.wifiprobe.ui.fragment.PassengerFlowDataFragment;
 import com.ums.wifiprobe.ui.fragment.PassengerFlowTraFragment;
+import com.ums.wifiprobe.utils.CheckApkExist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,14 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(passengerFlowDataFragment!=null){
+            passengerFlowDataFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -137,6 +146,24 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
                 startActivity(intent);
                 break;
             case R.id.head_advanced:
+                if (CheckApkExist.checkApkExist(this, "com.gelian.shopun") && CheckApkExist.checkApkExist(this, "com.gelian.device")) {
+                    Intent intent6 = new Intent();
+                    intent6.setClassName("com.gelian.shopun", "com.gelian.shopun.activity.ActivitySplash");
+                    PackageManager packageManager = getPackageManager();
+                    if (packageManager.resolveActivity(intent6, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                        startActivity(intent6);
+                    } else {
+
+                    }
+
+                } else {
+                    //提醒从应用市场下载安装
+                    Intent protocolIntent = new Intent(this, SplashActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("appinfo", new AppProtocolInfo("客群画像", "", "protocol_dzl.txt",0));
+                    protocolIntent.putExtras(bundle);
+                    startActivityForResult(protocolIntent, 2001);
+                }
                 break;
         }
     }

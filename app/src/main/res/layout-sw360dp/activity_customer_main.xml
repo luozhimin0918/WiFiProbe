@@ -13,7 +13,7 @@
         android:background="@color/blue"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:layout_height="60dp">
+        android:layout_height="70dp">
         <cn.bingoogolapple.badgeview.BGABadgeImageButton
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/head_setting"
@@ -39,15 +39,22 @@
             android:layout_height="match_parent"
             android:layout_marginRight="20dp"
             android:orientation="horizontal">
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/advanced_function"
-                android:textColor="#333333 "
+                android:textColor="#ffffff"
+                android:gravity="center_vertical"
+                android:textSize="15sp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@null"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:scaleType="fitCenter"
                 android:clickable="false"
-                android:textSize="18sp" />
-
+                android:src="@mipmap/right"/>
         </LinearLayout>
     </LinearLayout>
 
