@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 25
@@ -38,33 +38,33 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-    compile 'com.squareup.picasso:picasso:2.3.2'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.jakewharton:butterknife:8.7.0'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.jakewharton:butterknife:8.7.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    compile 'com.github.codbking:PickTime:v1.0.1'
-    compile 'com.contrarywind:Android-PickerView:3.2.6'
-    compile 'in.srain.cube:ptr-load-more:1.0.6'
-    compile 'net.zetetic:android-database-sqlcipher:3.5.2'
-    compile project(':LibMarsdaemon')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.github.codbking:PickTime:v1.0.1'
+    implementation 'com.contrarywind:Android-PickerView:3.2.6'
+    implementation 'in.srain.cube:ptr-load-more:1.0.6'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.2'
+    implementation project(':LibMarsdaemon')
     implementation files('libs/umsanypaysdk.jar')
     implementation 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
     annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
     implementation project(':reward')
     implementation project(':FlycoTabLayout_Lib')
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

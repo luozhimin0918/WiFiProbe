@@ -15,17 +15,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     productFlavors {
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation files('libs/AppInteract_1.0.2_20170331.jar')
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.1'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.1'
 }
