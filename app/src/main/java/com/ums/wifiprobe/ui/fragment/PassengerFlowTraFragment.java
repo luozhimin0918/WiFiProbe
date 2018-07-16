@@ -32,7 +32,11 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ums.wifiprobe.R;
 import com.ums.wifiprobe.aidl.TransDataModel;
+import com.ums.wifiprobe.app.ThreadPoolProxyFactory;
+import com.ums.wifiprobe.data.DataResource;
+import com.ums.wifiprobe.data.ProbeTotalDataRepository;
 import com.ums.wifiprobe.eventbus.MessageEvent;
+import com.ums.wifiprobe.service.greendao.MacTotalInfo;
 import com.ums.wifiprobe.ui.activity.RevisedTurnoverActivity;
 import com.ums.wifiprobe.ui.customview.DoubleDatePickerDialog;
 import com.ums.wifiprobe.ui.customview.EasyDialog;
@@ -523,6 +527,33 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
+
+                            final List<MacTotalInfo> curCustomerList = new ArrayList<>();
+
+                            //获取ListView数据
+                            //获取Total数据-----同barData
+                            ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    ProbeTotalDataRepository.getInstance().getTask(startDate, "days", startDate, new DataResource.GetTaskCallback<MacTotalInfo>() {
+                                        @Override
+                                        public void OnTaskLoaded(MacTotalInfo info) {
+
+
+                                        }
+
+                                        @Override
+                                        public void onDataNotAvaliable() {
+
+                                        }
+                                    });
+                                }
+                            });
+
+
+
+
                     Toast.makeText(getContext(), "今日", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
