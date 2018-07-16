@@ -157,6 +157,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         });
         mTransDataModel = new TransDataModel(getContext());
         mTransDataModel.bind();
+
+
         handler.sendEmptyMessageDelayed(55, 1000);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -563,12 +565,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Toast.makeText(getContext(), "本月", Toast.LENGTH_SHORT).show();
                     break;
                 case 55:
-                    List<Bundle> dd = mTransDataModel.get();
-
+                    List<Bundle> dd = mTransDataModel.get("2018-07-12"+" 00:00:00","2018-07-12"+" 23:59:00");
                     moneyZong = 0f;
                     for (Bundle d : dd) {
                         moneyZong += Float.parseFloat(d.getString("transAmount"));
-                        Log.d("ppp", moneyZong + "   " + d.getString("transName") + "  " + d.getInt("transCount") + "  " + d.getString("transAmount"));
+                        Log.d("ppp", TimeUtils.stampToDate(d.getLong("start_time")+"") +
+                                "  "+TimeUtils.stampToDate(d.getLong("end_time")+"") +
+                                "  " + d.getInt("transCount") + "  " + d.getString("transAmount"));
                     }
                     tariMoneyZong.setText(moneyZong + "");
                     //客流单价
