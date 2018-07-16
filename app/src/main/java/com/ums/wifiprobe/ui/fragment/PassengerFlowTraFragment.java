@@ -34,6 +34,7 @@ import com.ums.wifiprobe.ui.activity.RevisedTurnoverActivity;
 import com.ums.wifiprobe.ui.customview.DoubleDatePickerDialog;
 import com.ums.wifiprobe.ui.customview.EasyDialog;
 import com.ums.wifiprobe.utils.BarChartManager;
+import com.ums.wifiprobe.utils.TimeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -158,6 +159,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         String textString = String.format("%d-%d-%d", startYear,
                                 startMonthOfYear + 1, startDayOfMonth, endYear, endMonthOfYear + 1, endDayOfMonth);
                         dateDoubleSelect.setText(textString);
+                         Log.d("Frag", TimeUtils.getLastTimeInterval(textString));
                     }
                 }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), false).show();
             }
