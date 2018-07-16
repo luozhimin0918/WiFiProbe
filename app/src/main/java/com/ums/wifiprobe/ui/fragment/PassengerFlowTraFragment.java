@@ -20,6 +20,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codbking.widget.DatePickDialog;
+import com.codbking.widget.OnSureLisener;
+import com.codbking.widget.bean.DateType;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -41,8 +44,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -90,6 +96,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TextView xiuzhenKeliuPrice;
     @BindView(R.id.dateDoubleSelect)
     TextView dateDoubleSelect;
+    @BindView(R.id.dateDoubleSelectEnd)
+    TextView dateDoubleSelectEnd;
+
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
 
@@ -100,7 +109,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     String zhandiMianji = "";//占地面积
     Context mContext;
     TransDataModel mTransDataModel;
-
+    private DatePickDialog datePicker;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -145,11 +154,18 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         mTransDataModel = new TransDataModel(getContext());
         mTransDataModel.bind();
         handler.sendEmptyMessageDelayed(55, 1000);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        startDate=endDate=sdf.format(new Date());
+        dateDoubleSelect.setText(startDate);
+        dateDoubleSelectEnd.setText(endDate);
         dateDoubleSelect.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
             @Override
             public void onClick(View view) {
-                // 最后一个false表示不显示日期，如果要显示日期，最后参数可以是true或者不用输入
+                showDatePickerStart();
+//                Log.d("Frag", TimeUtils.getLastTimeInterval(textString));
+              /*  // 最后一个false表示不显示日期，如果要显示日期，最后参数可以是true或者不用输入
                 new DoubleDatePickerDialog(getContext(), 0, new DoubleDatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -159,9 +175,15 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         String textString = String.format("%d-%d-%d", startYear,
                                 startMonthOfYear + 1, startDayOfMonth, endYear, endMonthOfYear + 1, endDayOfMonth);
                         dateDoubleSelect.setText(textString);
-                         Log.d("Frag", TimeUtils.getLastTimeInterval(textString));
+
                     }
-                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), false).show();
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DATE), false).show();*/
+            }
+        });
+        dateDoubleSelectEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerEnd();
             }
         });
     }
@@ -310,6 +332,96 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         chartBarMulp.invalidate();*/
     }
 
+    String startDate;
+    String endDate;
+    SimpleDateFormat format;
+    public void showDatePickerStart() {
+        format = new SimpleDateFormat("yyyy-MM-dd");
+        datePicker = new DatePickDialog(mContext);
+        //设置上下年分限制
+        datePicker.setYearLimt(1);
+        //设置标题
+        datePicker.setTitle("开始时间");
+        //设置类型
+        datePicker.setType(DateType.TYPE_YMD);
+        //设置消息体的显示格式，日期格式
+        datePicker.setMessageFormat("yyyy-MM-dd");
+        //设置选择回调
+        datePicker.setOnChangeLisener(null);
+        //设置点击确定按钮回调
+        datePicker.setOnSureLisener(new OnSureLisener() {
+            @Override
+            public void onSure(final Date date) {
+
+                if(TimeUtils.isDateOneBigger(date)){
+                    Toast.makeText(getActivity(),"日期不能大于今天",Toast.LENGTH_SHORT).show();
+                }else if(TimeUtils.isDateOneBiggerTwo(format.format(date),endDate)){
+                    Toast.makeText(getActivity(),"日期不能大于结束时间",Toast.LENGTH_SHORT).show();
+                }else{
+                    startDate = format.format(date);
+                    dateDoubleSelect.setText(startDate);
+                    Log.e("TTTTT", "StartSetOnSureLisener=" +startDate);
+                }
+
+            }
+        });
+        if(startDate!=null){
+            try {
+                datePicker.setStartDate(format.parse(startDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Log.e("TTTTT", "StartSetStartDate=" + startDate.toString());
+        }else{
+            datePicker.setStartDate(new Date());
+        }
+
+
+        datePicker.show();
+    }
+    public void showDatePickerEnd() {
+        format = new SimpleDateFormat("yyyy-MM-dd");
+        datePicker = new DatePickDialog(mContext);
+        //设置上下年分限制
+        datePicker.setYearLimt(1);
+        //设置标题
+        datePicker.setTitle("结束时间");
+        //设置类型
+        datePicker.setType(DateType.TYPE_YMD);
+        //设置消息体的显示格式，日期格式
+        datePicker.setMessageFormat("yyyy-MM-dd");
+        //设置选择回调
+        datePicker.setOnChangeLisener(null);
+        //设置点击确定按钮回调
+        datePicker.setOnSureLisener(new OnSureLisener() {
+            @Override
+            public void onSure(final Date date) {
+                if(TimeUtils.isDateOneBigger(date)){
+                    Toast.makeText(getActivity(),"日期不能大于今天",Toast.LENGTH_SHORT).show();
+                }else if(TimeUtils.isDateOneBiggerTwo(startDate,format.format(date))){
+                    Toast.makeText(getActivity(),"日期不能小于开始时间",Toast.LENGTH_SHORT).show();
+                }else{
+                    endDate = format.format(date);
+                    dateDoubleSelectEnd.setText(endDate);
+                    Log.e("TTTTT", "EndSetOnSureLisener=" +endDate);
+                }
+
+            }
+        });
+        if(endDate!=null){
+            try {
+                datePicker.setStartDate(format.parse(endDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Log.e("TTTTT", "EndSetStartDate=" + endDate.toString());
+        }else{
+            datePicker.setStartDate(new Date());
+        }
+
+
+        datePicker.show();
+    }
 
     @Override
     public void onDestroyView() {

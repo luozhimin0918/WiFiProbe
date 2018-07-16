@@ -504,4 +504,35 @@ public class TimeUtils {
         // System.out.println("所在周星期日的日期：" + imptimeEnd);
         return imptimeBegin + "," + imptimeEnd;
     }
+    public static boolean isDateOneBigger(Date str1) {
+        boolean isBigger = false;
+        Date dt1 = null;
+        Date dt2 = null;
+            dt1 = str1;
+            dt2 = new Date();
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
+    public static boolean isDateOneBiggerTwo(String  str1,String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
 }
