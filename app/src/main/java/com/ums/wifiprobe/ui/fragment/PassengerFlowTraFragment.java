@@ -36,6 +36,7 @@ import com.ums.wifiprobe.data.DataResource;
 import com.ums.wifiprobe.data.ProbeTotalDataRepository;
 import com.ums.wifiprobe.eventbus.MessageEvent;
 import com.ums.wifiprobe.service.greendao.MacTotalInfo;
+import com.ums.wifiprobe.service.greendao.RssiInfo;
 import com.ums.wifiprobe.ui.activity.RevisedTurnoverActivity;
 import com.ums.wifiprobe.ui.customview.EasyDialog;
 import com.ums.wifiprobe.utils.BarChartManager;
@@ -104,6 +105,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     ImageView jiaoyiTongBiImage;
     @BindView(R.id.jiaoyiTongBiText)
     TextView jiaoyiTongBiText;
+    @BindView(R.id.keliuBiImage)
+    ImageView keliuBiImage;
+    @BindView(R.id.keliuBiText)
+    TextView keliuBiText;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -116,6 +121,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     Context mContext;
     TransDataModel mTransDataModel;
     private DatePickDialog datePicker;
+    int keliuBi = 0;//客流数量百分比
 
     @Nullable
     @Override
@@ -458,7 +464,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 xiuzhenTariMoney.setText(messageEvent.getEditQuery());
                 xiuzhenNumStr = messageEvent.getEditQuery();
                 float editQuertInt = Float.parseFloat(messageEvent.getEditQuery());
-                xiuzhenKeliuPrice.setText(editQuertInt / keliuNumInt + "");
+                if(keliuNumInt!=0){
+                    xiuzhenKeliuPrice.setText(editQuertInt / keliuNumInt + "");
+                }
+
             }
             if (messageEvent.getEditQueryBilie() != null && !messageEvent.getEditQueryBilie().equals("")) {
                 xiuzhenBili.setText(messageEvent.getEditQueryBilie());
@@ -469,7 +478,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 zhandiMianji = messageEvent.getEditQueryMianji();
                 //商铺坪效
                 int mianji = Integer.parseInt(messageEvent.getEditQueryMianji());
-                shanPuPinxiao.setText((moneyZong / mianji) + "");
+                if(mianji!=0){
+                    shanPuPinxiao.setText((moneyZong / mianji) + "");
+                }
+
 
             }
 
@@ -587,25 +599,122 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     }
 
                     float weekZhi = weekZong / 7;
-                    float baidfiWeek = (moneyZong / weekZhi - 1) * 100;
-                    Log.d("www", weekZong + "" + baidfiWeek + "%");
-                    if(baidfiWeek>0){
-                        jiaoyiTongBiImage.setBackgroundResource(R.mipmap.icon_arr_bottom);
-                        jiaoyiTongBiText.setTextColor(getResources().getColor(R.color.smalNumTextRed));
-                        jiaoyiTongBiText.setText(baidfiWeek+"%");
+
+                    float baidfiWeek = 0f;
+                    if(weekZhi!=0){
+                        baidfiWeek = (moneyZong / weekZhi - 1) * 100;
                     }else{
+                        baidfiWeek=moneyZong;//当上周总交易额为零，取当前交易额
+                    }
+
+                    Log.d("www", weekZong + "" + baidfiWeek + "%");
+                    if (baidfiWeek > 0) {
                         jiaoyiTongBiImage.setBackgroundResource(R.mipmap.icon_arr_above);
                         jiaoyiTongBiText.setTextColor(getResources().getColor(R.color.smalNumTextGree));
-                        jiaoyiTongBiText.setText(baidfiWeek+"%");
+                        jiaoyiTongBiText.setText(baidfiWeek + "%");
+
+                    } else {
+                        jiaoyiTongBiImage.setBackgroundResource(R.mipmap.icon_arr_bottom);
+                        jiaoyiTongBiText.setTextColor(getResources().getColor(R.color.smalNumTextRed));
+                        jiaoyiTongBiText.setText(baidfiWeek + "%");
                     }
                     tariMoneyZong.setText(moneyZong + "");
-                    //客流单价
-                    keliuNumInt = Integer.parseInt(keliuNum.getText().toString());
 
-                    keliuPrice.setText((moneyZong / keliuNumInt) + "");
                     xiuzhenBulieStr = xiuzhenBili.getText().toString();
                     xiuzhenNumStr = xiuzhenTariMoney.getText().toString();
                     zhandiMianji = shanpuMianji.getText().toString();
+
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            ProbeTotalDataRepository.getInstance().getTask(startDate, "days", startDate, new DataResource.GetTaskCallback<MacTotalInfo>() {
+                                @Override
+                                public void OnTaskLoaded(MacTotalInfo infoRe) {
+                                    int customerNumber = 0;
+                                    List<RssiInfo> rssiInfos = infoRe.getRssiInfos();
+                                    if (rssiInfos != null && rssiInfos.size() > 0) {
+                                        for (RssiInfo info : rssiInfos) {
+                                            if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+
+                                                customerNumber += info.getTotaNumber();
+                                            }
+                                        }
+                                    }
+                                    keliuNumInt = customerNumber;
+                                    Log.d("DayNowKeliu", "一天的客流量" + customerNumber + "");
+                                    sendEmptyMessage(77);
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                    Log.d("DayNowKeliu", "totalView data load failure !");
+                                }
+                            });
+                        }
+                    });
+
+
+
+                    break;
+                case 66:
+                    //客流单价
+                    keliuNum.setText(keliuNumInt + "");
+                    if(keliuNumInt!=0){
+                        keliuPrice.setText((moneyZong / keliuNumInt) + "");
+                    }
+
+                    if (keliuBi > 0) {
+                        keliuBiImage.setBackgroundResource(R.mipmap.icon_arr_above);
+                        keliuBiText.setTextColor(getResources().getColor(R.color.smalNumTextGree));
+                        keliuBiText.setText(keliuBi + "%");
+                    } else {
+                        keliuBiImage.setBackgroundResource(R.mipmap.icon_arr_bottom);
+                        keliuBiText.setTextColor(getResources().getColor(R.color.smalNumTextRed));
+                        keliuBiText.setText(keliuBi + "%");
+
+                    }
+                    break;
+                case 77:
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(TimeUtils.getSundayDate(startDate, -1))) + "-" + (TimeUtils.getWeeksOfYear(startDate) - 1);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", TimeUtils.getSundayDate(startDate, -1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    int curValue = 0;
+                                    for (int i = 0; i < list.size(); i++) {
+                                        List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+                                        if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                            for (RssiInfo info : nowRssiInfos) {
+                                                if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                    curValue += info.getTotaNumber();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if(curValue!=0){
+                                        keliuBi = (keliuNumInt / (curValue / 7) - 1) * 100;
+                                    }else{
+                                        keliuBi=keliuNumInt;//当上周客流总和为零时，取客流数量为百分比
+                                    }
+
+
+                                    Log.d("WeekLast", list.size() + " >>>" + curValue + "  ");
+                                    sendEmptyMessage(66);
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                    Log.d("WeekLast", "pre customerBarChart data load failure !");
+                                }
+                            });
+                        }
+                    });
                     break;
             }
         }
