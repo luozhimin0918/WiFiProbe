@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -38,7 +37,6 @@ import com.ums.wifiprobe.data.ProbeTotalDataRepository;
 import com.ums.wifiprobe.eventbus.MessageEvent;
 import com.ums.wifiprobe.service.greendao.MacTotalInfo;
 import com.ums.wifiprobe.ui.activity.RevisedTurnoverActivity;
-import com.ums.wifiprobe.ui.customview.DoubleDatePickerDialog;
 import com.ums.wifiprobe.ui.customview.EasyDialog;
 import com.ums.wifiprobe.utils.BarChartManager;
 import com.ums.wifiprobe.utils.TimeUtils;
@@ -102,6 +100,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TextView dateDoubleSelect;
     @BindView(R.id.dateDoubleSelectEnd)
     TextView dateDoubleSelectEnd;
+    @BindView(R.id.jiaoyiTongBiImage)
+    ImageView jiaoyiTongBiImage;
+    @BindView(R.id.jiaoyiTongBiText)
+    TextView jiaoyiTongBiText;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -114,6 +116,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     Context mContext;
     TransDataModel mTransDataModel;
     private DatePickDialog datePicker;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -162,11 +165,12 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         handler.sendEmptyMessageDelayed(55, 1000);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        startDate=endDate=sdf.format(new Date());
+        startDate = endDate = sdf.format(new Date());
         dateDoubleSelect.setText(startDate);
         dateDoubleSelectEnd.setText(endDate);
         dateDoubleSelect.setOnClickListener(new View.OnClickListener() {
             Calendar c = Calendar.getInstance();
+
             @Override
             public void onClick(View view) {
                 showDatePickerStart();
@@ -341,6 +345,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     String startDate;
     String endDate;
     SimpleDateFormat format;
+
     public void showDatePickerStart() {
         format = new SimpleDateFormat("yyyy-MM-dd");
         datePicker = new DatePickDialog(mContext);
@@ -359,32 +364,34 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             @Override
             public void onSure(final Date date) {
 
-                if(TimeUtils.isDateOneBigger(date)){
-                    Toast.makeText(getActivity(),"日期不能大于今天",Toast.LENGTH_SHORT).show();
-                }else if(TimeUtils.isDateOneBiggerTwo(format.format(date),endDate)){
-                    Toast.makeText(getActivity(),"日期不能大于结束时间",Toast.LENGTH_SHORT).show();
-                }else{
+                if (TimeUtils.isDateOneBigger(date)) {
+                    Toast.makeText(getActivity(), "日期不能大于今天", Toast.LENGTH_SHORT).show();
+                } else if (TimeUtils.isDateOneBiggerTwo(format.format(date), endDate)) {
+                    Toast.makeText(getActivity(), "日期不能大于结束时间", Toast.LENGTH_SHORT).show();
+                } else {
                     startDate = format.format(date);
                     dateDoubleSelect.setText(startDate);
-                    Log.e("TTTTT", "StartSetOnSureLisener=" +startDate);
+                    Log.e("TTTTT", "StartSetOnSureLisener=" + startDate);
+                    handler.sendEmptyMessageDelayed(55, 0);
                 }
 
             }
         });
-        if(startDate!=null){
+        if (startDate != null) {
             try {
                 datePicker.setStartDate(format.parse(startDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             Log.e("TTTTT", "StartSetStartDate=" + startDate.toString());
-        }else{
+        } else {
             datePicker.setStartDate(new Date());
         }
 
 
         datePicker.show();
     }
+
     public void showDatePickerEnd() {
         format = new SimpleDateFormat("yyyy-MM-dd");
         datePicker = new DatePickDialog(mContext);
@@ -402,26 +409,26 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         datePicker.setOnSureLisener(new OnSureLisener() {
             @Override
             public void onSure(final Date date) {
-                if(TimeUtils.isDateOneBigger(date)){
-                    Toast.makeText(getActivity(),"日期不能大于今天",Toast.LENGTH_SHORT).show();
-                }else if(TimeUtils.isDateOneBiggerTwo(startDate,format.format(date))){
-                    Toast.makeText(getActivity(),"日期不能小于开始时间",Toast.LENGTH_SHORT).show();
-                }else{
+                if (TimeUtils.isDateOneBigger(date)) {
+                    Toast.makeText(getActivity(), "日期不能大于今天", Toast.LENGTH_SHORT).show();
+                } else if (TimeUtils.isDateOneBiggerTwo(startDate, format.format(date))) {
+                    Toast.makeText(getActivity(), "日期不能小于开始时间", Toast.LENGTH_SHORT).show();
+                } else {
                     endDate = format.format(date);
                     dateDoubleSelectEnd.setText(endDate);
-                    Log.e("TTTTT", "EndSetOnSureLisener=" +endDate);
+                    Log.e("TTTTT", "EndSetOnSureLisener=" + endDate);
                 }
 
             }
         });
-        if(endDate!=null){
+        if (endDate != null) {
             try {
                 datePicker.setStartDate(format.parse(endDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             Log.e("TTTTT", "EndSetStartDate=" + endDate.toString());
-        }else{
+        } else {
             datePicker.setStartDate(new Date());
         }
 
@@ -530,30 +537,28 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             switch (msg.what) {
                 case 0:
 
-                            final List<MacTotalInfo> curCustomerList = new ArrayList<>();
+                    final List<MacTotalInfo> curCustomerList = new ArrayList<>();
 
-                            //获取ListView数据
-                            //获取Total数据-----同barData
-                            ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                    //获取ListView数据
+                    //获取Total数据-----同barData
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            ProbeTotalDataRepository.getInstance().getTask(startDate, "days", startDate, new DataResource.GetTaskCallback<MacTotalInfo>() {
                                 @Override
-                                public void run() {
-
-                                    ProbeTotalDataRepository.getInstance().getTask(startDate, "days", startDate, new DataResource.GetTaskCallback<MacTotalInfo>() {
-                                        @Override
-                                        public void OnTaskLoaded(MacTotalInfo info) {
+                                public void OnTaskLoaded(MacTotalInfo info) {
 
 
-                                        }
+                                }
 
-                                        @Override
-                                        public void onDataNotAvaliable() {
+                                @Override
+                                public void onDataNotAvaliable() {
 
-                                        }
-                                    });
                                 }
                             });
-
-
+                        }
+                    });
 
 
                     Toast.makeText(getContext(), "今日", Toast.LENGTH_SHORT).show();
@@ -565,13 +570,33 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Toast.makeText(getContext(), "本月", Toast.LENGTH_SHORT).show();
                     break;
                 case 55:
-                    List<Bundle> dd = mTransDataModel.get("2018-07-12"+" 00:00:00","2018-07-12"+" 23:59:00");
+                    List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", startDate + " 23:59:00");
                     moneyZong = 0f;
                     for (Bundle d : dd) {
                         moneyZong += Float.parseFloat(d.getString("transAmount"));
-                        Log.d("ppp", TimeUtils.stampToDate(d.getLong("start_time")+"") +
-                                "  "+TimeUtils.stampToDate(d.getLong("end_time")+"") +
-                                "  " + d.getInt("transCount") + "  " + d.getString("transAmount"));
+                        Log.d("ppp", d.getString("transAmount"));
+                    }
+                    String startAndEnd = TimeUtils.getLastTimeInterval(startDate);
+                    String[] ss = startAndEnd.split(",");
+                    Log.d("www", ss[0] + "  " + ss[1]);
+                    List<Bundle> dayWeek = mTransDataModel.get(ss[0] + " 00:00:00", ss[1] + " 23:59:00");
+                    float weekZong = 0f;
+                    for (Bundle d : dayWeek) {
+                        weekZong += Float.parseFloat(d.getString("transAmount"));
+                        Log.d("www", d.getString("transAmount"));
+                    }
+
+                    float weekZhi = weekZong / 7;
+                    float baidfiWeek = (moneyZong / weekZhi - 1) * 100;
+                    Log.d("www", weekZong + "" + baidfiWeek + "%");
+                    if(baidfiWeek>0){
+                        jiaoyiTongBiImage.setBackgroundResource(R.mipmap.icon_arr_bottom);
+                        jiaoyiTongBiText.setTextColor(getResources().getColor(R.color.smalNumTextRed));
+                        jiaoyiTongBiText.setText(baidfiWeek+"%");
+                    }else{
+                        jiaoyiTongBiImage.setBackgroundResource(R.mipmap.icon_arr_above);
+                        jiaoyiTongBiText.setTextColor(getResources().getColor(R.color.smalNumTextGree));
+                        jiaoyiTongBiText.setText(baidfiWeek+"%");
                     }
                     tariMoneyZong.setText(moneyZong + "");
                     //客流单价

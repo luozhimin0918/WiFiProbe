@@ -118,10 +118,12 @@
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent">
                         <ImageView
-                            android:src="@mipmap/icon_arr_bottom"
+                            android:id="@+id/jiaoyiTongBiImage"
+                            android:background="@mipmap/icon_arr_bottom"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                       <TextView
+                          android:id="@+id/jiaoyiTongBiText"
                           android:text="10%"
                           android:textColor="@color/smalNumTextRed"
                           android:textSize="10sp"
