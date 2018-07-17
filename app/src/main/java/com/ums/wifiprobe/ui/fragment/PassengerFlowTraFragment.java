@@ -252,11 +252,27 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 xValues0.add("23:00");
 
 
-                names.add("今日数据");
-                names.add("昨日数据");
+                names.add("今天数据");
+                names.add("昨天数据");
 
                 break;
             case "week":
+                chartLineTextBen.setText("本周数据");
+                chartLineTextShang.setText("上周数据");
+                //设置x轴的数据
+
+                xValues0.add("周一");
+                xValues0.add("周二");
+                xValues0.add("周三");
+                xValues0.add("周四");
+                xValues0.add("周五");
+                xValues0.add("周六");
+                xValues0.add("周日");
+
+
+                names.add("本周数据");
+                names.add("上周数据");
+
                 break;
         }
 
@@ -612,6 +628,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     final List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
     final List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
 
+    final List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
+    final List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -737,7 +756,134 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     break;
                 case 1:
-                    Toast.makeText(getContext(), "本周", Toast.LENGTH_SHORT).show();
+
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(startDate)) + "-" + TimeUtils.getWeeksOfYear(startDate);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if (list != null && list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
+
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
+                                                    }
+                                                }
+                                            }
+                                            Week7KeliuList.add(Double.parseDouble(curValue + ""));
+                                            Log.d("Week7KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                }
+                            });
+                        }
+                    });
+
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(TimeUtils.getSundayDate(startDate, -1))) + "-" + (TimeUtils.getWeeksOfYear(startDate) - 1);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", TimeUtils.getSundayDate(startDate, -1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if (list != null && list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
+
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
+                                                    }
+                                                }
+                                            }
+                                            LastWeek7KeliuList.add(Double.parseDouble(curValue + ""));
+                                            Log.d("LastWeek7KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                }
+                            });
+                        }
+                    });
+                    List<String >  dste = TimeUtils.getTimeIntervallList(startDate);
+                    List<Double> benWeekJiaoyiList =new ArrayList<>();
+                    for(String  ds:dste){
+                        benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
+                        Log.d("benWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
+                    }
+                  List<Float> Week7Keliudangjie = new ArrayList<>();
+
+
+                    if (benWeekJiaoyiList != null && Week7KeliuList != null) {
+                        for (int h = 0; h < benWeekJiaoyiList.size(); h++) {
+
+
+                            if (Week7KeliuList.get(h) != 0) {
+                                Double dd = benWeekJiaoyiList.get(h) / Week7KeliuList.get(h);
+                                Log.d("wwwttttt", " >>>>" + dd + " " + Week7KeliuList.get(h));
+                                Week7Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                            } else {
+                                Week7Keliudangjie.add(0f);
+                                Log.d("wwwttttt", " >>>>" + 0.0 + " ");
+                            }
+                            Log.d("benWeekJiaoyiList","");
+                        }
+                    }
+                    for (Float f : Week7Keliudangjie) {
+                        Log.d("benWeekJiaoyiListTwwwww", f + "");
+                    }
+
+                    List<String >  lastDste = TimeUtils.getLastWeekIntervalArray(startDate);
+                    List<Double> LastWeekJiaoyiList =new ArrayList<>();
+                    for(String  ds:lastDste){
+                        LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
+                        Log.d("LastWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
+                    }
+                    List<Float> LastWeek7Keliudangjie = new ArrayList<>();
+
+
+                    if (LastWeekJiaoyiList != null && LastWeek7KeliuList != null) {
+                        for (int h = 0; h < LastWeekJiaoyiList.size(); h++) {
+
+
+                            if (LastWeek7KeliuList.get(h) != 0) {
+                                Double dd = LastWeekJiaoyiList.get(h) / LastWeek7KeliuList.get(h);
+                                Log.d("wwwllllll", " >>>>" + dd + " " + LastWeek7KeliuList.get(h));
+                                LastWeek7Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                            } else {
+                                LastWeek7Keliudangjie.add(0f);
+                                Log.d("wwwllllll", " >>>>" + 0.0 + " ");
+                            }
+                            Log.d("LastWeekJiaoyiList","");
+                        }
+                    }
+                    for (Float f : LastWeek7Keliudangjie) {
+                        Log.d("LastWeek7Kelijiewwwww", f + "");
+                    }
+                    initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
                     break;
                 case 2:
                     Toast.makeText(getContext(), "本月", Toast.LENGTH_SHORT).show();

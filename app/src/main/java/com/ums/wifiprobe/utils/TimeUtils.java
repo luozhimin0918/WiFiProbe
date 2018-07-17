@@ -535,6 +535,58 @@ public class TimeUtils {
         // System.out.println("所在周星期日的日期：" + imptimeEnd);
         return imptimeBegin + "," + imptimeEnd;
     }
+    /**
+     * 根据当前日期获得所在周的日期区间（周一和周日日期）
+     *
+     * @return
+     * @author zhaoxuepu
+     * @throws ParseException
+     */
+    public static List<String> getTimeIntervallList(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal=null;
+        List<String> weekBenList =new ArrayList<>();
+        for(int c=0;c<7;c++){
+            cal = Calendar.getInstance();
+            try {
+                cal.setTime(sdf.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // 判断要计算的日期是否是周日，如果是则减一天计算周六的，否则会出问题，计算到下一周去了
+            int dayWeek = cal.get(Calendar.DAY_OF_WEEK);// 获得当前日期是一个星期的第几天
+            if (1 == dayWeek) {
+                cal.add(Calendar.DAY_OF_MONTH, -1);
+            }
+            // System.out.println("要计算日期为:" + sdf.format(cal.getTime())); // 输出要计算日期
+            // 设置一个星期的第一天，按中国的习惯一个星期的第一天是星期一
+            cal.setFirstDayOfWeek(Calendar.MONDAY);
+            // 获得当前日期是一个星期的第几天
+            int day = cal.get(Calendar.DAY_OF_WEEK);
+            // 根据日历的规则，给当前日期减去星期几与一个星期第一天的差值
+            cal.add(Calendar.DATE, cal.getFirstDayOfWeek() - day);
+            if(c==0){
+                String imptimeBegin = sdf.format(cal.getTime());
+                weekBenList.add(imptimeBegin);
+            }else{
+
+                // System.out.println("所在周星期一的日期：" + imptimeBegin);
+                cal.add(Calendar.DATE, c);
+                String imptimeEnd = sdf.format(cal.getTime());
+                weekBenList.add(imptimeEnd);
+            }
+
+
+        }
+
+
+
+
+
+
+        // System.out.println("所在周星期日的日期：" + imptimeEnd);
+        return weekBenList;
+    }
     public static boolean isDateOneBigger(Date str1) {
         boolean isBigger = false;
         Date dt1 = null;
