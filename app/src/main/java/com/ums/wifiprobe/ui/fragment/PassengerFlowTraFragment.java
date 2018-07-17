@@ -110,6 +110,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     ImageView keliuBiImage;
     @BindView(R.id.keliuBiText)
     TextView keliuBiText;
+    @BindView(R.id.dangjiaBiImage)
+    ImageView dangjiaBiImage;
+    @BindView(R.id.dangjiaBiText)
+    TextView dangjiaBiText;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -123,7 +127,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TransDataModel mTransDataModel;
     private DatePickDialog datePicker;
     int keliuBi = 0;//客流数量百分比
-    List<Integer> keliuWeekInt=new ArrayList<>();//上一周的每一天的客流数量
+    List<Integer> keliuWeekInt = new ArrayList<>();//上一周的每一天的客流数量
 
     @Nullable
     @Override
@@ -466,7 +470,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 xiuzhenTariMoney.setText(messageEvent.getEditQuery());
                 xiuzhenNumStr = messageEvent.getEditQuery();
                 float editQuertInt = Float.parseFloat(messageEvent.getEditQuery());
-                if(keliuNumInt!=0){
+                if (keliuNumInt != 0) {
                     xiuzhenKeliuPrice.setText(editQuertInt / keliuNumInt + "");
                 }
 
@@ -480,7 +484,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 zhandiMianji = messageEvent.getEditQueryMianji();
                 //商铺坪效
                 int mianji = Integer.parseInt(messageEvent.getEditQueryMianji());
-                if(mianji!=0){
+                if (mianji != 0) {
                     shanPuPinxiao.setText((moneyZong / mianji) + "");
                 }
 
@@ -544,7 +548,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-     Handler handler = new Handler() {
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -603,10 +607,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     float weekZhi = weekZong / 7;
 
                     float baidfiWeek = 0f;
-                    if(weekZhi!=0){
+                    if (weekZhi != 0) {
                         baidfiWeek = (moneyZong / weekZhi - 1) * 100;
-                    }else{
-                        baidfiWeek=moneyZong;//当上周总交易额为零，取当前交易额
+                    } else {
+                        baidfiWeek = moneyZong;//当上周总交易额为零，取当前交易额
                     }
 
                     Log.d("www", weekZong + "" + baidfiWeek + "%");
@@ -658,13 +662,14 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     });
 
 
-
                     break;
                 case 66:
                     //客流单价
                     keliuNum.setText(keliuNumInt + "");
-                    if(keliuNumInt!=0){
+                    if (keliuNumInt != 0) {
                         keliuPrice.setText((moneyZong / keliuNumInt) + "");
+                    }else{
+                        keliuPrice.setText("0");
                     }
 
                     if (keliuBi > 0) {
@@ -677,41 +682,50 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         keliuBiText.setText(keliuBi + "%");
 
                     }
-                    List<String>  weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
-                    List<Double> weektranMoney=new ArrayList<>();//上周每一天的交易额
-                    for(String ww:weekListStr){
-                        weektranMoney.add(coupterUtil.toDayAmountZong(mTransDataModel,ww));
-                        Log.d("WeekStr",ww+"  "+coupterUtil.toDayAmountZong(mTransDataModel,ww));
+                    List<String> weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
+                    List<Double> weektranMoney = new ArrayList<>();//上周每一天的交易额
+                    for (String ww : weekListStr) {
+                        weektranMoney.add(coupterUtil.toDayAmountZong(mTransDataModel, ww));
+                        Log.d("WeekStr", ww + "  " + coupterUtil.toDayAmountZong(mTransDataModel, ww));
                     }
-                    for(Integer ii:keliuWeekInt){
-                        Log.d("WeekStrInt",ii+"  ");
+                    for (Integer ii : keliuWeekInt) {
+                        Log.d("WeekStrInt", ii + "  ");
                     }
-                    List<Double> keliuPriceWeek=new ArrayList<>();//上周每一天的客流单价
-                    Double keliuZongWeek=0.0;
-                    for(int w=0;w<7;w++){
-                        if(keliuWeekInt.get(w)!=0){
-                            keliuPriceWeek.add(weektranMoney.get(w)/keliuWeekInt.get(w));
-                            keliuZongWeek+=weektranMoney.get(w)/keliuWeekInt.get(w);
-                            Log.d("WeekStrPrice",weektranMoney.get(w)/keliuWeekInt.get(w)+"  ");
-                        }else{
+                    List<Double> keliuPriceWeek = new ArrayList<>();//上周每一天的客流单价
+                    Double keliuZongWeek = 0.0;
+                    for (int w = 0; w < 7; w++) {
+                        if (keliuWeekInt.get(w) != 0) {
+                            keliuPriceWeek.add(weektranMoney.get(w) / keliuWeekInt.get(w));
+                            keliuZongWeek += weektranMoney.get(w) / keliuWeekInt.get(w);
+                            Log.d("WeekStrPrice", weektranMoney.get(w) / keliuWeekInt.get(w) + "  ");
+                        } else {
                             keliuPriceWeek.add(0.00);
-                            keliuZongWeek+=0.00;
+                            keliuZongWeek += 0.00;
                         }
 
 
                     }
-                    Double kePriceBili=0.0;
-                    if(keliuNumInt!=0){
-                        Log.d("WeekStrPricezong",(moneyZong / keliuNumInt)+"   "+ (keliuZongWeek/7)+"");
-                         kePriceBili =((moneyZong / keliuNumInt)/(keliuZongWeek/7)-1)*100;
+                    Double kePriceBili = 0.0;
+                    if (keliuNumInt != 0&&(keliuZongWeek / 7)!=0) {
+                        Log.d("WeekStrPricezong", (moneyZong / keliuNumInt) + "   " + (keliuZongWeek / 7) + "");
+                        kePriceBili = ((moneyZong / keliuNumInt) / (keliuZongWeek / 7) - 1) * 100;
 
-                    }else{
-                        keliuZongWeek=-100.0;
+                    } else {
+                        kePriceBili = -100d;
                     }
+                    if (kePriceBili > 0) {
+                        dangjiaBiImage.setBackgroundResource(R.mipmap.icon_arr_above);
+                        dangjiaBiText.setTextColor(getResources().getColor(R.color.smalNumTextGree));
+                        dangjiaBiText.setText(kePriceBili + "%");
+                    } else {
+                        dangjiaBiImage.setBackgroundResource(R.mipmap.icon_arr_bottom);
+                        dangjiaBiText.setTextColor(getResources().getColor(R.color.smalNumTextRed));
+                        dangjiaBiText.setText(kePriceBili + "%");
 
-                    Log.d("WeekStrPricezong",kePriceBili+"");
+                    }
+                    Log.d("WeekStrPricezong", kePriceBili + "");
 
-                    Log.d("WeekStrPricezong",keliuZongWeek+"");
+                    Log.d("WeekStrPricezong", keliuZongWeek + "");
                     break;
                 case 77:
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
@@ -726,21 +740,21 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                     keliuWeekInt.clear();
                                     for (int i = 0; i < list.size(); i++) {
                                         List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
-                                        int onDayKeliNu=0;
+                                        int onDayKeliNu = 0;
                                         if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
                                             for (RssiInfo info : nowRssiInfos) {
                                                 if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
                                                     curValue += info.getTotaNumber();
-                                                    onDayKeliNu+=info.getTotaNumber();
+                                                    onDayKeliNu += info.getTotaNumber();
                                                 }
                                             }
                                         }
                                         keliuWeekInt.add(onDayKeliNu);
                                     }
-                                    if(curValue!=0){
+                                    if (curValue != 0) {
                                         keliuBi = (keliuNumInt / (curValue / 7) - 1) * 100;
-                                    }else{
-                                        keliuBi=keliuNumInt;//当上周客流总和为零时，取客流数量为百分比
+                                    } else {
+                                        keliuBi = keliuNumInt;//当上周客流总和为零时，取客流数量为百分比
                                     }
 
 
