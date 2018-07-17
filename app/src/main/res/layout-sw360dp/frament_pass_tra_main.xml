@@ -693,6 +693,7 @@
                        android:text="今日"
                        android:textSize="14sp"
                        android:button="@null"
+                       android:checked="true"
                        android:textColor="@drawable/button_press_blue__select"
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent" />
@@ -702,7 +703,6 @@
                        android:text="本周"
                        android:textSize="14sp"
                        android:button="@null"
-                       android:checked="true"
                        android:textColor="@drawable/button_press_blue__select"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
@@ -731,6 +731,7 @@
                         android:layout_width="7dp"
                         android:layout_height="7dp" />
                     <TextView
+                        android:id="@+id/chartLineTextBen"
                         android:textSize="11sp"
                         android:text="本周数据"
                         android:layout_marginLeft="5dp"
@@ -743,6 +744,7 @@
                         android:layout_width="7dp"
                         android:layout_height="7dp" />
                     <TextView
+                        android:id="@+id/chartLineTextShang"
                         android:textSize="11sp"
                         android:text="上周数据"
                         android:layout_marginLeft="5dp"

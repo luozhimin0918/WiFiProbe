@@ -114,6 +114,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     ImageView dangjiaBiImage;
     @BindView(R.id.dangjiaBiText)
     TextView dangjiaBiText;
+    @BindView(R.id.chartLineTextBen)
+    TextView chartLineTextBen;
+    @BindView(R.id.chartLineTextShang)
+    TextView chartLineTextShang;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -208,6 +212,63 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 showDatePickerEnd();
             }
         });
+    }
+
+    private void initChart(List<Float> todaylist, List<Float> beforList, String type) {
+        chartBarMulp.setOnChartValueSelectedListener(this);
+        BarChartManager barChartManager2 = new BarChartManager(chartBarMulp, getContext());
+        List<String> xValues0 = new ArrayList<>();
+        //线的名字集合
+        List<String> names = new ArrayList<>();
+        switch (type) {
+            case "day":
+                chartLineTextBen.setText("今天数据");
+                chartLineTextShang.setText("昨天数据");
+                //设置x轴的数据
+
+                xValues0.add("00:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("04:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("08:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("12:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("16:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("20:00");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("23:00");
+
+
+                names.add("今日数据");
+                names.add("昨日数据");
+
+                break;
+            case "week":
+                break;
+        }
+
+
+        //设置y轴的数据()
+        List<List<Float>> yValues = new ArrayList<>();
+        yValues.add(todaylist);
+        yValues.add(beforList);
+
+
+        //创建多条柱状的图表
+        barChartManager2.showBarChart(xValues0, yValues, names);
     }
 
     private void initChart() {
@@ -548,8 +609,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-    final List<Double> DaYhour24KeliuList =new ArrayList<>();//今天一天24小时的客流量
-    final List<Double> Lasthour24KeliuList =new ArrayList<>();//昨天一天24小时的客流量
+    final List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
+    final List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
 
     Handler handler = new Handler() {
         @Override
@@ -567,21 +628,21 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
-                                    if(list!=null&&list.size()>0){
+                                    if (list != null && list.size() > 0) {
                                         for (int i = 0; i < list.size(); i++) {
                                             int curValue = 0;
 
-                                                List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
 
-                                                if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
-                                                    for (RssiInfo info : nowRssiInfos) {
-                                                        if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
-                                                            curValue += info.getTotaNumber();
-                                                        }
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
                                                     }
                                                 }
-                                            DaYhour24KeliuList.add(Double.parseDouble(curValue+""));
-                                            Log.d("DaYhour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
+                                            }
+                                            DaYhour24KeliuList.add(Double.parseDouble(curValue + ""));
+                                            Log.d("DaYhour24KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
                                         }
                                     }
                                 }
@@ -601,7 +662,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
-                                    if(list!=null&&list.size()>0){
+                                    if (list != null && list.size() > 0) {
                                         for (int i = 0; i < list.size(); i++) {
                                             int curValue = 0;
 
@@ -614,8 +675,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                                     }
                                                 }
                                             }
-                                            Lasthour24KeliuList.add(Double.parseDouble(curValue+""));
-                                            Log.d("Lasthour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
+                                            Lasthour24KeliuList.add(Double.parseDouble(curValue + ""));
+                                            Log.d("Lasthour24KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
                                         }
                                     }
                                 }
@@ -628,53 +689,52 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         }
                     });
 
-                    List<Float>  Today24Keliudangjie=new ArrayList<>();
+                    List<Float> Today24Keliudangjie = new ArrayList<>();
                     List<Bundle> hourList = mTransDataModel.gethour(startDate + " 00:00:00", startDate + " 23:59:00");
-                    if(hourList!=null&&DaYhour24KeliuList!=null){
-                        for (int h =0;h<hourList.size();h++) {
-                            Double todayAmount=Double.parseDouble(hourList.get(h).getString("transAmount"));
+                    if (hourList != null && DaYhour24KeliuList != null) {
+                        for (int h = 0; h < hourList.size(); h++) {
+                            Double todayAmount = Double.parseDouble(hourList.get(h).getString("transAmount"));
 
-                          if(DaYhour24KeliuList.get(h)!=0){
-                               Double dd = todayAmount/DaYhour24KeliuList.get(h);
-                                Log.d("totttt"," >>>>"+dd+" "+DaYhour24KeliuList.get(h));
-                                Today24Keliudangjie.add(Float.parseFloat(dd+""));
+                            if (DaYhour24KeliuList.get(h) != 0) {
+                                Double dd = todayAmount / DaYhour24KeliuList.get(h);
+                                Log.d("totttt", " >>>>" + dd + " " + DaYhour24KeliuList.get(h));
+                                Today24Keliudangjie.add(Float.parseFloat(dd + ""));
 
-                            }else{
+                            } else {
                                 Today24Keliudangjie.add(0f);
-                              Log.d("totttt"," >>>>"+0.0+" ");
+                                Log.d("totttt", " >>>>" + 0.0 + " ");
                             }
-                                    Log.d("hourList", hourList.get(h).getString("transAmount")+" "+TimeUtils.stampToDate(hourList.get(h).getLong("start_time")+"")+"  "+TimeUtils.stampToDate(hourList.get(h).getLong("end_time")+""));
+                            Log.d("hourList", hourList.get(h).getString("transAmount") + " " + TimeUtils.stampToDate(hourList.get(h).getLong("start_time") + "") + "  " + TimeUtils.stampToDate(hourList.get(h).getLong("end_time") + ""));
                         }
                     }
-                   for(Float f:Today24Keliudangjie){
-                        Log.d("hourListTwwwww",f+"");
+                    for (Float f : Today24Keliudangjie) {
+                        Log.d("hourListTwwwww", f + "");
                     }
-                    List<Float>  Beday24Keliudangjie=new ArrayList<>();
-                    String  dayBeforeStr =TimeUtils.getBeforDay(startDate);
+                    List<Float> Beday24Keliudangjie = new ArrayList<>();
+                    String dayBeforeStr = TimeUtils.getBeforDay(startDate);
                     List<Bundle> hourBeforList = mTransDataModel.gethour(dayBeforeStr + " 00:00:00", dayBeforeStr + " 23:59:00");
-                    if(hourBeforList!=null&&Lasthour24KeliuList!=null){
-                        for (int l=0;l<hourBeforList.size();l++) {
-                            Double todayAmount=Double.parseDouble(hourBeforList.get(l).getString("transAmount"));
+                    if (hourBeforList != null && Lasthour24KeliuList != null) {
+                        for (int l = 0; l < hourBeforList.size(); l++) {
+                            Double todayAmount = Double.parseDouble(hourBeforList.get(l).getString("transAmount"));
 
-                            if(Lasthour24KeliuList.get(l)!=0){
-                                Double dd = todayAmount/Lasthour24KeliuList.get(l);
-                                Log.d("toLLLLLLL"," >>>>"+dd+" "+Lasthour24KeliuList.get(l));
-                                Beday24Keliudangjie.add(Float.parseFloat(dd+""));
+                            if (Lasthour24KeliuList.get(l) != 0) {
+                                Double dd = todayAmount / Lasthour24KeliuList.get(l);
+                                Log.d("toLLLLLLL", " >>>>" + dd + " " + Lasthour24KeliuList.get(l));
+                                Beday24Keliudangjie.add(Float.parseFloat(dd + ""));
 
-                            }else{
+                            } else {
                                 Beday24Keliudangjie.add(0f);
-                                Log.d("toLLLLLLL"," >>>>"+0.0+" ");
+                                Log.d("toLLLLLLL", " >>>>" + 0.0 + " ");
                             }
-                            Log.d("hourBeforList", hourBeforList.get(l).getString("transAmount")+" "+TimeUtils.stampToDate(hourBeforList.get(l).getLong("start_time")+"")+"  "+TimeUtils.stampToDate(hourBeforList.get(l).getLong("end_time")+""));
+                            Log.d("hourBeforList", hourBeforList.get(l).getString("transAmount") + " " + TimeUtils.stampToDate(hourBeforList.get(l).getLong("start_time") + "") + "  " + TimeUtils.stampToDate(hourBeforList.get(l).getLong("end_time") + ""));
                         }
 
                     }
-                    for(Float f:Beday24Keliudangjie){
-                        Log.d("hourBeforListTwwwww",f+"");
+                    for (Float f : Beday24Keliudangjie) {
+                        Log.d("hourBeforListTwwwww", f + "");
                     }
+                    initChart(Today24Keliudangjie, Beday24Keliudangjie, "day");
 
-
-                    Toast.makeText(getContext(), "今日", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     Toast.makeText(getContext(), "本周", Toast.LENGTH_SHORT).show();
@@ -763,7 +823,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     keliuNum.setText(keliuNumInt + "");
                     if (keliuNumInt != 0) {
                         keliuPrice.setText((moneyZong / keliuNumInt) + "");
-                    }else{
+                    } else {
                         keliuPrice.setText("0");
                     }
 
@@ -801,7 +861,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     }
                     Double kePriceBili = 0.0;
-                    if (keliuNumInt != 0&&(keliuZongWeek / 7)!=0) {
+                    if (keliuNumInt != 0 && (keliuZongWeek / 7) != 0) {
                         Log.d("WeekStrPricezong", (moneyZong / keliuNumInt) + "   " + (keliuZongWeek / 7) + "");
                         kePriceBili = ((moneyZong / keliuNumInt) / (keliuZongWeek / 7) - 1) * 100;
 
