@@ -585,4 +585,27 @@ public class TimeUtils {
         res = simpleDateFormat.format(date);
         return res;
     }
+
+    /**
+     * 获取当前日期的前一天
+     * @param dayTime
+     * @return
+     */
+    public  static String  getBeforDay(String dayTime){
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        Date date= null;
+        try {
+            date = sdf.parse(dayTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        date = calendar.getTime();
+       String reDateStr = sdf.format(date);
+        return reDateStr;
+
+    }
 }

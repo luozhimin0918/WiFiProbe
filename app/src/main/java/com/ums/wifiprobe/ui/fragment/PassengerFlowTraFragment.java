@@ -208,7 +208,6 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 showDatePickerEnd();
             }
         });
-        handler.sendEmptyMessage(0);//客流交易趋势图
     }
 
     private void initChart() {
@@ -549,8 +548,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-    final List<Integer> DaYhour24KeliuList =new ArrayList<>();//今天一天24小时的客流量
-    final List<Integer> Lasthour24KeliuList =new ArrayList<>();//昨天一天24小时的客流量
+    final List<Double> DaYhour24KeliuList =new ArrayList<>();//今天一天24小时的客流量
+    final List<Double> Lasthour24KeliuList =new ArrayList<>();//昨天一天24小时的客流量
 
     Handler handler = new Handler() {
         @Override
@@ -581,7 +580,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                                         }
                                                     }
                                                 }
-                                            DaYhour24KeliuList.add(curValue);
+                                            DaYhour24KeliuList.add(Double.parseDouble(curValue+""));
                                             Log.d("DaYhour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
                                         }
                                     }
@@ -615,7 +614,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                                     }
                                                 }
                                             }
-                                            Lasthour24KeliuList.add(curValue);
+                                            Lasthour24KeliuList.add(Double.parseDouble(curValue+""));
                                             Log.d("Lasthour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
                                         }
                                     }
@@ -628,6 +627,52 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                             });
                         }
                     });
+
+                    List<Float>  Today24Keliudangjie=new ArrayList<>();
+                    List<Bundle> hourList = mTransDataModel.gethour(startDate + " 00:00:00", startDate + " 23:59:00");
+                    if(hourList!=null&&DaYhour24KeliuList!=null){
+                        for (int h =0;h<hourList.size();h++) {
+                            Double todayAmount=Double.parseDouble(hourList.get(h).getString("transAmount"));
+
+                          if(DaYhour24KeliuList.get(h)!=0){
+                               Double dd = todayAmount/DaYhour24KeliuList.get(h);
+                                Log.d("totttt"," >>>>"+dd+" "+DaYhour24KeliuList.get(h));
+                                Today24Keliudangjie.add(Float.parseFloat(dd+""));
+
+                            }else{
+                                Today24Keliudangjie.add(0f);
+                              Log.d("totttt"," >>>>"+0.0+" ");
+                            }
+                                    Log.d("hourList", hourList.get(h).getString("transAmount")+" "+TimeUtils.stampToDate(hourList.get(h).getLong("start_time")+"")+"  "+TimeUtils.stampToDate(hourList.get(h).getLong("end_time")+""));
+                        }
+                    }
+                   for(Float f:Today24Keliudangjie){
+                        Log.d("hourListTwwwww",f+"");
+                    }
+                    List<Float>  Beday24Keliudangjie=new ArrayList<>();
+                    String  dayBeforeStr =TimeUtils.getBeforDay(startDate);
+                    List<Bundle> hourBeforList = mTransDataModel.gethour(dayBeforeStr + " 00:00:00", dayBeforeStr + " 23:59:00");
+                    if(hourBeforList!=null&&Lasthour24KeliuList!=null){
+                        for (int l=0;l<hourBeforList.size();l++) {
+                            Double todayAmount=Double.parseDouble(hourBeforList.get(l).getString("transAmount"));
+
+                            if(Lasthour24KeliuList.get(l)!=0){
+                                Double dd = todayAmount/Lasthour24KeliuList.get(l);
+                                Log.d("toLLLLLLL"," >>>>"+dd+" "+Lasthour24KeliuList.get(l));
+                                Beday24Keliudangjie.add(Float.parseFloat(dd+""));
+
+                            }else{
+                                Beday24Keliudangjie.add(0f);
+                                Log.d("toLLLLLLL"," >>>>"+0.0+" ");
+                            }
+                            Log.d("hourBeforList", hourBeforList.get(l).getString("transAmount")+" "+TimeUtils.stampToDate(hourBeforList.get(l).getLong("start_time")+"")+"  "+TimeUtils.stampToDate(hourBeforList.get(l).getLong("end_time")+""));
+                        }
+
+                    }
+                    for(Float f:Beday24Keliudangjie){
+                        Log.d("hourBeforListTwwwww",f+"");
+                    }
+
 
                     Toast.makeText(getContext(), "今日", Toast.LENGTH_SHORT).show();
                     break;
@@ -776,6 +821,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Log.d("WeekStrPricezong", kePriceBili + "");
 
                     Log.d("WeekStrPricezong", keliuZongWeek + "");
+
+
+                    handler.sendEmptyMessage(0);//客流交易趋势图
                     break;
                 case 77:
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
