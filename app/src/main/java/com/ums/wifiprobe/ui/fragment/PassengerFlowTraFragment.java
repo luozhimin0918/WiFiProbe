@@ -139,7 +139,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             ButterKnife.bind(this, view);
             EventBus.getDefault().register(this);
             initData();
-            initChart();
+//            initChart();
         } else {
             ViewGroup parent = (ViewGroup) mRootView.get().getParent();
             if (parent != null) {
@@ -208,6 +208,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 showDatePickerEnd();
             }
         });
+        handler.sendEmptyMessage(0);//客流交易趋势图
     }
 
     private void initChart() {
@@ -548,26 +549,42 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
+    final List<Integer> DaYhour24KeliuList =new ArrayList<>();//今天一天24小时的客流量
+    final List<Integer> Lasthour24KeliuList =new ArrayList<>();//昨天一天24小时的客流量
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-
-                    final List<MacTotalInfo> curCustomerList = new ArrayList<>();
-
+//                    initChart();
                     //获取ListView数据
                     //获取Total数据-----同barData
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
+                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(startDate), "day", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
-                            ProbeTotalDataRepository.getInstance().getTask(startDate, "days", startDate, new DataResource.GetTaskCallback<MacTotalInfo>() {
                                 @Override
-                                public void OnTaskLoaded(MacTotalInfo info) {
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if(list!=null&&list.size()>0){
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
 
+                                                List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
 
+                                                if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                    for (RssiInfo info : nowRssiInfos) {
+                                                        if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                            curValue += info.getTotaNumber();
+                                                        }
+                                                    }
+                                                }
+                                            DaYhour24KeliuList.add(curValue);
+                                            Log.d("DaYhour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
+                                        }
+                                    }
                                 }
 
                                 @Override
@@ -578,6 +595,39 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         }
                     });
 
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(startDate), "day", TimeUtils.getDefineDayAgoDate(TimeUtils.getTimeMillions(startDate), 1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if(list!=null&&list.size()>0){
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
+
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
+                                                    }
+                                                }
+                                            }
+                                            Lasthour24KeliuList.add(curValue);
+                                            Log.d("Lasthour24KeliuList",list.get(i).getScaleValue()+"   "+curValue+"  "+"  "+list.get(i).getDate());
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                }
+                            });
+                        }
+                    });
 
                     Toast.makeText(getContext(), "今日", Toast.LENGTH_SHORT).show();
                     break;
