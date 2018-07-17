@@ -675,6 +675,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         keliuBiText.setText(keliuBi + "%");
 
                     }
+                    List<String>  weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
+                    for(String ww:weekListStr){
+                        Log.d("WeekStr",ww);
+                    }
                     break;
                 case 77:
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {

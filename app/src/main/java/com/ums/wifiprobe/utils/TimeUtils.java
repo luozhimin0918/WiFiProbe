@@ -5,8 +5,10 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chenzhy on 2017/6/30.
@@ -466,6 +468,35 @@ public class TimeUtils {
         // System.out.println(sdf.format(calendar2.getTime()));// last Sunday
         String lastEndDate = sdf.format(calendar2.getTime());
         return lastBeginDate + "," + lastEndDate;
+    }
+    /**
+     * 根据当前日期获得上周的日期区间（上周周一和周日日期）
+     *
+     * @return
+     * @author zhaoxuepu
+     */
+    public static List<String> getLastWeekIntervalArray(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar   calendar1 =null;
+
+        List<String> weekStrList =new ArrayList<>();
+        for(int of=1;of<8;of++){
+            calendar1 = Calendar.getInstance();
+            try {
+                calendar1.setTime(sdf.parse(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            int dayOfWeek = calendar1.get(Calendar.DAY_OF_WEEK) - 1;
+            int offset1 = of - dayOfWeek;
+            calendar1.add(Calendar.DATE, offset1 -7);
+            weekStrList.add(sdf.format(calendar1.getTime()));
+
+        }
+
+        return weekStrList;
     }
 
     /**
