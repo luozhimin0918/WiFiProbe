@@ -41,6 +41,7 @@ import com.ums.wifiprobe.ui.activity.RevisedTurnoverActivity;
 import com.ums.wifiprobe.ui.customview.EasyDialog;
 import com.ums.wifiprobe.utils.BarChartManager;
 import com.ums.wifiprobe.utils.TimeUtils;
+import com.ums.wifiprobe.utils.coupterUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,6 +123,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TransDataModel mTransDataModel;
     private DatePickDialog datePicker;
     int keliuBi = 0;//客流数量百分比
+    List<Integer> keliuWeekInt=new ArrayList<>();//上一周的每一天的客流数量
 
     @Nullable
     @Override
@@ -542,7 +544,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-    Handler handler = new Handler() {
+     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -676,9 +678,40 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     }
                     List<String>  weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
+                    List<Double> weektranMoney=new ArrayList<>();//上周每一天的交易额
                     for(String ww:weekListStr){
-                        Log.d("WeekStr",ww);
+                        weektranMoney.add(coupterUtil.toDayAmountZong(mTransDataModel,ww));
+                        Log.d("WeekStr",ww+"  "+coupterUtil.toDayAmountZong(mTransDataModel,ww));
                     }
+                    for(Integer ii:keliuWeekInt){
+                        Log.d("WeekStrInt",ii+"  ");
+                    }
+                    List<Double> keliuPriceWeek=new ArrayList<>();//上周每一天的客流单价
+                    Double keliuZongWeek=0.0;
+                    for(int w=0;w<7;w++){
+                        if(keliuWeekInt.get(w)!=0){
+                            keliuPriceWeek.add(weektranMoney.get(w)/keliuWeekInt.get(w));
+                            keliuZongWeek+=weektranMoney.get(w)/keliuWeekInt.get(w);
+                            Log.d("WeekStrPrice",weektranMoney.get(w)/keliuWeekInt.get(w)+"  ");
+                        }else{
+                            keliuPriceWeek.add(0.00);
+                            keliuZongWeek+=0.00;
+                        }
+
+
+                    }
+                    Double kePriceBili=0.0;
+                    if(keliuNumInt!=0){
+                        Log.d("WeekStrPricezong",(moneyZong / keliuNumInt)+"   "+ (keliuZongWeek/7)+"");
+                         kePriceBili =((moneyZong / keliuNumInt)/(keliuZongWeek/7)-1)*100;
+
+                    }else{
+                        keliuZongWeek=-100.0;
+                    }
+
+                    Log.d("WeekStrPricezong",kePriceBili+"");
+
+                    Log.d("WeekStrPricezong",keliuZongWeek+"");
                     break;
                 case 77:
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
@@ -690,15 +723,19 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
                                     int curValue = 0;
+                                    keliuWeekInt.clear();
                                     for (int i = 0; i < list.size(); i++) {
                                         List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+                                        int onDayKeliNu=0;
                                         if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
                                             for (RssiInfo info : nowRssiInfos) {
                                                 if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
                                                     curValue += info.getTotaNumber();
+                                                    onDayKeliNu+=info.getTotaNumber();
                                                 }
                                             }
                                         }
+                                        keliuWeekInt.add(onDayKeliNu);
                                     }
                                     if(curValue!=0){
                                         keliuBi = (keliuNumInt / (curValue / 7) - 1) * 100;
