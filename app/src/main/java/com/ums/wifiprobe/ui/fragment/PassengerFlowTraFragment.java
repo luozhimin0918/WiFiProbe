@@ -156,6 +156,11 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.sendEmptyMessage(0);//客流交易趋势图
+    }
 
     private void initData() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -213,7 +218,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 showDatePickerEnd();
             }
         });
-        handler.sendEmptyMessage(0);//客流交易趋势图
+
     }
 
     private void initChart(List<Float> todaylist, List<Float> beforList, String type) {
