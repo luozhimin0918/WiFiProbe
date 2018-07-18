@@ -132,6 +132,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     private DatePickDialog datePicker;
     int keliuBi = 0;//客流数量百分比
     List<Integer> keliuWeekInt = new ArrayList<>();//上一周的每一天的客流数量
+    private String curDate = TimeUtils.getDate(System.currentTimeMillis());
 
     @Nullable
     @Override
@@ -212,6 +213,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 showDatePickerEnd();
             }
         });
+        handler.sendEmptyMessage(0);//客流交易趋势图
     }
 
     private void initChart(List<Float> todaylist, List<Float> beforList, String type) {
@@ -691,7 +693,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(startDate), "day", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(curDate), "day", curDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
@@ -725,7 +727,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(startDate), "day", TimeUtils.getDefineDayAgoDate(TimeUtils.getTimeMillions(startDate), 1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+                            ProbeTotalDataRepository.getInstance().getTasks(TimeUtils.getWeekDate(curDate), "day", TimeUtils.getDefineDayAgoDate(TimeUtils.getTimeMillions(curDate), 1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
@@ -757,7 +759,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     });
 
                     List<Float> Today24Keliudangjie = new ArrayList<>();
-                    List<Bundle> hourList = mTransDataModel.gethour(startDate + " 00:00:00", startDate + " 23:59:00");
+                    List<Bundle> hourList = mTransDataModel.gethour(curDate + " 00:00:00", curDate + " 23:59:00");
                     if (hourList != null && DaYhour24KeliuList != null) {
                         for (int h = 0; h < hourList.size(); h++) {
                             Double todayAmount = Double.parseDouble(hourList.get(h).getString("transAmount"));
@@ -778,7 +780,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         Log.d("hourListTwwwww", f + "");
                     }
                     List<Float> Beday24Keliudangjie = new ArrayList<>();
-                    String dayBeforeStr = TimeUtils.getBeforDay(startDate);
+                    String dayBeforeStr = TimeUtils.getBeforDay(curDate);
                     List<Bundle> hourBeforList = mTransDataModel.gethour(dayBeforeStr + " 00:00:00", dayBeforeStr + " 23:59:00");
                     if (hourBeforList != null && Lasthour24KeliuList != null) {
                         for (int l = 0; l < hourBeforList.size(); l++) {
@@ -808,8 +810,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(startDate)) + "-" + TimeUtils.getWeeksOfYear(startDate);
-                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(curDate)) + "-" + TimeUtils.getWeeksOfYear(curDate);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", curDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
@@ -843,8 +845,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(TimeUtils.getSundayDate(startDate, -1))) + "-" + (TimeUtils.getWeeksOfYear(startDate) - 1);
-                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", TimeUtils.getSundayDate(startDate, -1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(TimeUtils.getSundayDate(curDate, -1))) + "-" + (TimeUtils.getWeeksOfYear(curDate) - 1);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", TimeUtils.getSundayDate(curDate, -1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
@@ -874,7 +876,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                             });
                         }
                     });
-                    List<String >  dste = TimeUtils.getTimeIntervallList(startDate);
+                    List<String >  dste = TimeUtils.getTimeIntervallList(curDate);
                     List<Double> benWeekJiaoyiList =new ArrayList<>();
                     for(String  ds:dste){
                         benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
@@ -903,7 +905,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         Log.d("benWeekJiaoyiListTwwwww", f + "");
                     }
 
-                    List<String >  lastDste = TimeUtils.getLastWeekIntervalArray(startDate);
+                    List<String >  lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
                     List<Double> LastWeekJiaoyiList =new ArrayList<>();
                     for(String  ds:lastDste){
                         LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
@@ -937,8 +939,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(startDate)) + "-" + TimeUtils.getMonthsOfYear(startDate);
-                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "month", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(curDate)) + "-" + TimeUtils.getMonthsOfYear(curDate);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "month", curDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
                                 @Override
                                 public void onTasksLoaded(List<MacTotalInfo> list) {
@@ -978,8 +980,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
-                            int lastMonth = TimeUtils.getDefineMonthAgo(startDate, -1);
-                            String lastMonthData = TimeUtils.getDefineMonthAgoDate(startDate, -1);
+                            int lastMonth = TimeUtils.getDefineMonthAgo(curDate, -1);
+                            String lastMonthData = TimeUtils.getDefineMonthAgoDate(curDate, -1);
                             String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(lastMonthData)) + "-" + lastMonth;
                             ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "month", lastMonthData, new DataResource.LoadTasksCallback<MacTotalInfo>() {
 
@@ -1220,7 +1222,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Log.d("WeekStrPricezong", keliuZongWeek + "");
 
 
-                    handler.sendEmptyMessage(0);//客流交易趋势图
+
                     break;
                 case 77:
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
