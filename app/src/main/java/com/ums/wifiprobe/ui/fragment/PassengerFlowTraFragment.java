@@ -274,6 +274,47 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 names.add("上周数据");
 
                 break;
+            case "month":
+                chartLineTextBen.setText("本月数据");
+                chartLineTextShang.setText("上月数据");
+                //设置x轴的数据
+
+                xValues0.add("1日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("5日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("10日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("15日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("20日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("25日");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("");
+                xValues0.add("30日");
+
+
+
+                names.add("本月数据");
+                names.add("上月数据");
+                break;
         }
 
 
@@ -631,6 +672,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     final List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
     final List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
 
+    final List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
+    final List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
+
+    final List<String> monthDateStrList=new ArrayList<>();//本月30天的日期字符串list
+    final List<String> LastmonthDateStrList=new ArrayList<>();//上个月30天的日期字符串list
+
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -886,7 +934,150 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
                     break;
                 case 2:
-                    Toast.makeText(getContext(), "本月", Toast.LENGTH_SHORT).show();
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(startDate)) + "-" + TimeUtils.getMonthsOfYear(startDate);
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "month", startDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if (list != null && list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
+
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
+                                                    }
+                                                }
+                                            }
+                                            Month30KeliuList.add(Double.parseDouble(curValue + ""));
+                                            monthDateStrList.add(list.get(i).getScaleValue());
+                                            Log.d("Month30KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                        }
+                                        sendEmptyMessage(211);
+                                    }
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+                                    Log.d("Month30KeliuList","onDataNotAvaliable");
+                                }
+                            });
+                        }
+                    });
+
+
+
+                    break;
+                case 211:
+                    ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            int lastMonth = TimeUtils.getDefineMonthAgo(startDate, -1);
+                            String lastMonthData = TimeUtils.getDefineMonthAgoDate(startDate, -1);
+                            String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(lastMonthData)) + "-" + lastMonth;
+                            ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "month", lastMonthData, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                                @Override
+                                public void onTasksLoaded(List<MacTotalInfo> list) {
+                                    if (list != null && list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            int curValue = 0;
+
+                                            List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                            if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                                for (RssiInfo info : nowRssiInfos) {
+                                                    if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                        curValue += info.getTotaNumber();
+                                                    }
+                                                }
+                                            }
+                                            LastMonth30KeliuList.add(Double.parseDouble(curValue + ""));
+                                            LastmonthDateStrList.add(list.get(i).getScaleValue());
+                                            Log.d("LastMonth30KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                        }
+                                        sendEmptyMessage(212);
+                                    }
+                                }
+
+                                @Override
+                                public void onDataNotAvaliable() {
+
+                                }
+                            });
+                        }
+                    });
+
+                    break;
+                case 212:
+                    List<Double> benMonthJiaoyiList =new ArrayList<>();
+                    Log.d("benMonthJiaoyiList", Month30KeliuList.size()+"   "+monthDateStrList.size()+ ">>>>  ");
+                    for(String  ds:monthDateStrList){
+                        Double  transAmout= coupterUtil.toDayAmountZong(mTransDataModel,ds);
+                        benMonthJiaoyiList.add(transAmout);
+                    Log.d("benMonthJiaoyiList", transAmout+"");
+                    }
+                   List<Float> Month30Keliudangjie = new ArrayList<>();
+
+
+                    if (benMonthJiaoyiList != null && Month30KeliuList != null) {
+                        for (int h = 0; h < benMonthJiaoyiList.size(); h++) {
+
+
+                            if (Month30KeliuList.get(h) != 0) {
+                                Double dd = benMonthJiaoyiList.get(h) / Month30KeliuList.get(h);
+                                Log.d("wwwMMMM", " >>>>" + dd + " " + Month30KeliuList.get(h));
+                                Month30Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                            } else {
+                                Month30Keliudangjie.add(0f);
+                                Log.d("wwwMMMM", " >>>>" + 0.0 + " ");
+                            }
+                            Log.d("Month30Keliudangjie","");
+                        }
+                    }
+                    for (Float f : Month30Keliudangjie) {
+                        Log.d("Month30KeliudajieTwwwww", f + "");
+                    }
+
+
+                    List<Double> LastMonthJiaoyiList =new ArrayList<>();
+                    Log.d("LastMonthJiaoyiList", LastMonth30KeliuList.size()+"   "+LastmonthDateStrList.size()+ ">>>>  ");
+                    for(String  ds:LastmonthDateStrList){
+                        Double  transAmout= coupterUtil.toDayAmountZong(mTransDataModel,ds);
+                        LastMonthJiaoyiList.add(transAmout);
+                        Log.d("LastMonthJiaoyiList", transAmout+"");
+                    }
+                    List<Float> LastMonth30Keliudangjie = new ArrayList<>();
+
+
+                    if (LastMonthJiaoyiList != null && LastMonth30KeliuList != null) {
+                        for (int h = 0; h < LastMonthJiaoyiList.size(); h++) {
+
+
+                            if (LastMonth30KeliuList.get(h) != 0) {
+                                Double dd = LastMonthJiaoyiList.get(h) / LastMonth30KeliuList.get(h);
+                                Log.d("wwwMttttt", " >>>>" + dd + " " + LastMonth30KeliuList.get(h));
+                                LastMonth30Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                            } else {
+                                LastMonth30Keliudangjie.add(0f);
+                                Log.d("LastMonth30Keliudangjie", " >>>>" + 0.0 + " ");
+                            }
+                            Log.d("LastMonth30Keliudangjie","");
+                        }
+                    }
+                    for (Float f : LastMonth30Keliudangjie) {
+                        Log.d("LastMonthdangjieTwwwww", f + "");
+                    }
+
+                    initChart(Month30Keliudangjie, LastMonth30Keliudangjie, "month");
                     break;
                 case 55:
                     List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", startDate + " 23:59:00");
