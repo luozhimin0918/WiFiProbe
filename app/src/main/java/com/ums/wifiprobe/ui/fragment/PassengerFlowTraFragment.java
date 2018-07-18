@@ -688,6 +688,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     List<Float> Today24Keliudangjie = new ArrayList<>();
     List<Float> Beday24Keliudangjie = new ArrayList<>();
 
+    List<Float> Week7Keliudangjie = new ArrayList<>();
+    List<Float> LastWeek7Keliudangjie = new ArrayList<>();
+
     List<Float> LastMonth30Keliudangjie = new ArrayList<>();
     List<Float> Month30Keliudangjie = new ArrayList<>();
 
@@ -823,6 +826,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                      sendEmptyMessage(0);
                     break;
                 case 1:
+                    initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
+                    break;
+                case 100:
 
                      Week7KeliuList.clear();
                      LastWeek7KeliuList.clear();
@@ -901,7 +907,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
                         Log.d("benWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
                     }
-                  List<Float> Week7Keliudangjie = new ArrayList<>();
+
 
 
                     if (benWeekJiaoyiList != null && Week7KeliuList != null) {
@@ -930,7 +936,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
                         Log.d("LastWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
                     }
-                    List<Float> LastWeek7Keliudangjie = new ArrayList<>();
+
 
 
                     if (LastWeekJiaoyiList != null && LastWeek7KeliuList != null) {
@@ -952,7 +958,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     for (Float f : LastWeek7Keliudangjie) {
                         Log.d("LastWeek7Kelijiewwwww", f + "");
                     }
-                    initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
+
                     break;
                 case 2:
                     initChart(Month30Keliudangjie, LastMonth30Keliudangjie, "month");
@@ -1248,8 +1254,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
 
                     if(isFistCreat){
-                        handler.sendEmptyMessage(1000);//客流交易趋势图
-
+                        handler.sendEmptyMessage(1000);//客流交易趋势图 初始化日的数据，避免用时耗时
+                        handler.sendEmptyMessage(100);//初始化周的数据，避免用时耗时
                         handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
                         isFistCreat=false;
                     }
