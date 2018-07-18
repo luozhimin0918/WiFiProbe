@@ -685,6 +685,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
      List<String> LastmonthDateStrList=new ArrayList<>();//上个月30天的日期字符串list
 
 
+    List<Float> Today24Keliudangjie = new ArrayList<>();
+    List<Float> Beday24Keliudangjie = new ArrayList<>();
+
     List<Float> LastMonth30Keliudangjie = new ArrayList<>();
     List<Float> Month30Keliudangjie = new ArrayList<>();
 
@@ -695,6 +698,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
+                    initChart(Today24Keliudangjie, Beday24Keliudangjie, "day");
+                    break;
+                case 1000:
                    DaYhour24KeliuList.clear();
                    Lasthour24KeliuList.clear();
 
@@ -769,7 +775,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         }
                     });
 
-                    List<Float> Today24Keliudangjie = new ArrayList<>();
+
                     List<Bundle> hourList = mTransDataModel.gethour(curDate + " 00:00:00", curDate + " 23:59:00");
                     if (hourList != null && DaYhour24KeliuList != null) {
                         for (int h = 0; h < hourList.size(); h++) {
@@ -790,7 +796,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     for (Float f : Today24Keliudangjie) {
                         Log.d("hourListTwwwww", f + "");
                     }
-                    List<Float> Beday24Keliudangjie = new ArrayList<>();
+
                     String dayBeforeStr = TimeUtils.getBeforDay(curDate);
                     List<Bundle> hourBeforList = mTransDataModel.gethour(dayBeforeStr + " 00:00:00", dayBeforeStr + " 23:59:00");
                     if (hourBeforList != null && Lasthour24KeliuList != null) {
@@ -813,8 +819,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     for (Float f : Beday24Keliudangjie) {
                         Log.d("hourBeforListTwwwww", f + "");
                     }
-                    initChart(Today24Keliudangjie, Beday24Keliudangjie, "day");
 
+                     sendEmptyMessage(0);
                     break;
                 case 1:
 
@@ -1242,7 +1248,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
 
                     if(isFistCreat){
-                        handler.sendEmptyMessage(0);//客流交易趋势图
+                        handler.sendEmptyMessage(1000);//客流交易趋势图
+
                         handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
                         isFistCreat=false;
                     }
