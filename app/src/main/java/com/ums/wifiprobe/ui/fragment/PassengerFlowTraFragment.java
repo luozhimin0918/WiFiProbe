@@ -120,6 +120,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TextView chartLineTextShang;
     @BindView(R.id.jiaoyiLinear)
     LinearLayout jiaoyiLinear;
+    @BindView(R.id.keliuLinear)
+    LinearLayout keliuLinear;
+    @BindView(R.id.dangjiaLinear)
+    LinearLayout dangjiaLinear;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -1126,9 +1130,48 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Double timeAreaAmount = coupterUtil.toDayTwoAmountZong(mTransDataModel, startDate, endDate);
                     tariMoneyZong.setText(timeAreaAmount + "");
                     jiaoyiLinear.setVisibility(View.INVISIBLE);
+
+                    //只能查2个月内的客流量
+                    List<String> allDateStrList = new ArrayList<>();
+                    allDateStrList.addAll(LastmonthDateStrList);
+                    allDateStrList.addAll(monthDateStrList);
+
+                    List<Double> allKeliuList = new ArrayList<>();
+                    allKeliuList.addAll(LastMonth30KeliuList);
+                    allKeliuList.addAll(Month30KeliuList);
+                    int starIndex = allDateStrList.indexOf(startDate);
+                    int endIndex = allDateStrList.indexOf(endDate);
+                    Double TimeAoumnt = 0d;
+                    if (starIndex == -1) {
+                        for (Double mon : allKeliuList) {
+
+                            TimeAoumnt += mon;
+                        }
+                    } else {
+                        for (int i = starIndex; i <= endIndex; i++) {
+
+                            TimeAoumnt += allKeliuList.get(i);
+                        }
+                    }
+                    keliuNum.setText(TimeAoumnt + "");
+                    keliuLinear.setVisibility(View.INVISIBLE);
+
+                    Double keliuDangjia = 0.0;
+                    if (TimeAoumnt > 0) {
+                        keliuDangjia = timeAreaAmount / TimeAoumnt;
+                    } else {
+                        keliuDangjia = 0.0;
+                    }
+
+                    keliuPrice.setText(keliuDangjia + "");
+                    dangjiaLinear.setVisibility(View.INVISIBLE);
+
+
                     break;
                 case 55:
                     jiaoyiLinear.setVisibility(View.VISIBLE);
+                    keliuLinear.setVisibility(View.VISIBLE);
+                    dangjiaLinear.setVisibility(View.VISIBLE);
                     List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", startDate + " 23:59:00");
                     moneyZong = 0f;
                     for (Bundle d : dd) {
