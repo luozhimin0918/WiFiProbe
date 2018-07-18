@@ -133,7 +133,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     int keliuBi = 0;//客流数量百分比
     List<Integer> keliuWeekInt = new ArrayList<>();//上一周的每一天的客流数量
     private String curDate = TimeUtils.getDate(System.currentTimeMillis());
-
+    private boolean isFistCreat=true;//是否是第一次onCreateView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -159,7 +159,6 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     @Override
     public void onResume() {
         super.onResume();
-        handler.sendEmptyMessage(0);//客流交易趋势图
     }
 
     private void initData() {
@@ -1226,6 +1225,11 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     Log.d("WeekStrPricezong", keliuZongWeek + "");
 
+
+                    if(isFistCreat){
+                        handler.sendEmptyMessage(0);//客流交易趋势图
+                        isFistCreat=false;
+                    }
 
 
                     break;
