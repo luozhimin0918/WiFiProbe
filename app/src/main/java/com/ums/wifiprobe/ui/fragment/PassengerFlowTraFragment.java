@@ -672,17 +672,21 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-    final List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
-    final List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
+     List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
+     List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
 
-    final List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
-    final List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
+     List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
+     List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
 
-    final List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
-    final List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
+     List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
+     List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
 
-    final List<String> monthDateStrList=new ArrayList<>();//本月30天的日期字符串list
-    final List<String> LastmonthDateStrList=new ArrayList<>();//上个月30天的日期字符串list
+     List<String> monthDateStrList=new ArrayList<>();//本月30天的日期字符串list
+     List<String> LastmonthDateStrList=new ArrayList<>();//上个月30天的日期字符串list
+
+
+    List<Float> LastMonth30Keliudangjie = new ArrayList<>();
+    List<Float> Month30Keliudangjie = new ArrayList<>();
 
 
     Handler handler = new Handler() {
@@ -691,6 +695,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
+                   DaYhour24KeliuList.clear();
+                   Lasthour24KeliuList.clear();
+
 //                    initChart();
                     //获取ListView数据
                     //获取Total数据-----同barData
@@ -811,6 +818,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     break;
                 case 1:
 
+                     Week7KeliuList.clear();
+                     LastWeek7KeliuList.clear();
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -940,6 +949,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
                     break;
                 case 2:
+                    initChart(Month30Keliudangjie, LastMonth30Keliudangjie, "month");
+                    break;
+                case 200:
+                    monthDateStrList.clear();
+                    LastmonthDateStrList.clear();
+                    Month30KeliuList.clear();
+                    LastMonth30KeliuList.clear();
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -1060,7 +1076,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         LastMonthJiaoyiList.add(transAmout);
                         Log.d("LastMonthJiaoyiList", transAmout+"");
                     }
-                    List<Float> LastMonth30Keliudangjie = new ArrayList<>();
+
 
 
                     if (LastMonthJiaoyiList != null && LastMonth30KeliuList != null) {
@@ -1083,7 +1099,6 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         Log.d("LastMonthdangjieTwwwww", f + "");
                     }
 
-                    initChart(Month30Keliudangjie, LastMonth30Keliudangjie, "month");
                     break;
                 case 55:
                     List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", startDate + " 23:59:00");
@@ -1228,6 +1243,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     if(isFistCreat){
                         handler.sendEmptyMessage(0);//客流交易趋势图
+                        handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
                         isFistCreat=false;
                     }
 
