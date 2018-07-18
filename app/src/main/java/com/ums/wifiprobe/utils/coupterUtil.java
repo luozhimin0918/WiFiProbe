@@ -21,4 +21,14 @@ public class coupterUtil {
         }
         return moneyZong;
     }
+    public static Double toDayTwoAmountZong(TransDataModel mTransDataModel,String startDate,String endDate){
+        Double moneyZong;
+        List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", endDate + " 23:59:00");
+        moneyZong = 0d;
+        for (Bundle d : dd) {
+            moneyZong += Double.parseDouble(d.getString("transAmount"));
+            Log.d("toDayAmountZong",d.getString("transAmount")+"" );
+        }
+        return moneyZong;
+    }
 }

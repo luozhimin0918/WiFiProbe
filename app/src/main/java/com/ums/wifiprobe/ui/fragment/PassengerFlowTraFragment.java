@@ -118,6 +118,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     TextView chartLineTextBen;
     @BindView(R.id.chartLineTextShang)
     TextView chartLineTextShang;
+    @BindView(R.id.jiaoyiLinear)
+    LinearLayout jiaoyiLinear;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -133,7 +135,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     int keliuBi = 0;//客流数量百分比
     List<Integer> keliuWeekInt = new ArrayList<>();//上一周的每一天的客流数量
     private String curDate = TimeUtils.getDate(System.currentTimeMillis());
-    private boolean isFistCreat=true;//是否是第一次onCreateView
+    private boolean isFistCreat = true;//是否是第一次onCreateView
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -315,7 +318,6 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 xValues0.add("");
                 xValues0.add("");
                 xValues0.add("30日");
-
 
 
                 names.add("本月数据");
@@ -508,7 +510,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     startDate = format.format(date);
                     dateDoubleSelect.setText(startDate);
                     Log.e("TTTTT", "StartSetOnSureLisener=" + startDate);
-                    handler.sendEmptyMessageDelayed(55, 0);
+                    if (startDate.equals(endDate)) {
+                        handler.sendEmptyMessageDelayed(55, 0);
+
+                    } else {
+                        handler.sendEmptyMessage(44);
+                    }
+
                 }
 
             }
@@ -553,6 +561,12 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     endDate = format.format(date);
                     dateDoubleSelectEnd.setText(endDate);
                     Log.e("TTTTT", "EndSetOnSureLisener=" + endDate);
+                    if (startDate.equals(endDate)) {
+                        handler.sendEmptyMessageDelayed(55, 0);
+
+                    } else {
+                        handler.sendEmptyMessage(44);
+                    }
                 }
 
             }
@@ -672,17 +686,17 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
 
-     List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
-     List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
+    List<Double> DaYhour24KeliuList = new ArrayList<>();//今天一天24小时的客流量
+    List<Double> Lasthour24KeliuList = new ArrayList<>();//昨天一天24小时的客流量
 
-     List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
-     List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
+    List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
+    List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
 
-     List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
-     List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
+    List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
+    List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
 
-     List<String> monthDateStrList=new ArrayList<>();//本月30天的日期字符串list
-     List<String> LastmonthDateStrList=new ArrayList<>();//上个月30天的日期字符串list
+    List<String> monthDateStrList = new ArrayList<>();//本月30天的日期字符串list
+    List<String> LastmonthDateStrList = new ArrayList<>();//上个月30天的日期字符串list
 
 
     List<Float> Today24Keliudangjie = new ArrayList<>();
@@ -704,8 +718,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     initChart(Today24Keliudangjie, Beday24Keliudangjie, "day");
                     break;
                 case 1000:
-                   DaYhour24KeliuList.clear();
-                   Lasthour24KeliuList.clear();
+                    DaYhour24KeliuList.clear();
+                    Lasthour24KeliuList.clear();
 
 //                    initChart();
                     //获取ListView数据
@@ -823,15 +837,15 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         Log.d("hourBeforListTwwwww", f + "");
                     }
 
-                     sendEmptyMessage(0);
+                    sendEmptyMessage(0);
                     break;
                 case 1:
                     initChart(Week7Keliudangjie, LastWeek7Keliudangjie, "week");
                     break;
                 case 100:
 
-                     Week7KeliuList.clear();
-                     LastWeek7KeliuList.clear();
+                    Week7KeliuList.clear();
+                    LastWeek7KeliuList.clear();
                     ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -901,13 +915,12 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                             });
                         }
                     });
-                    List<String >  dste = TimeUtils.getTimeIntervallList(curDate);
-                    List<Double> benWeekJiaoyiList =new ArrayList<>();
-                    for(String  ds:dste){
-                        benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
-                        Log.d("benWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
+                    List<String> dste = TimeUtils.getTimeIntervallList(curDate);
+                    List<Double> benWeekJiaoyiList = new ArrayList<>();
+                    for (String ds : dste) {
+                        benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel, ds));
+                        Log.d("benWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel, ds) + "  ");
                     }
-
 
 
                     if (benWeekJiaoyiList != null && Week7KeliuList != null) {
@@ -923,20 +936,19 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                 Week7Keliudangjie.add(0f);
                                 Log.d("wwwttttt", " >>>>" + 0.0 + " ");
                             }
-                            Log.d("benWeekJiaoyiList","");
+                            Log.d("benWeekJiaoyiList", "");
                         }
                     }
                     for (Float f : Week7Keliudangjie) {
                         Log.d("benWeekJiaoyiListTwwwww", f + "");
                     }
 
-                    List<String >  lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
-                    List<Double> LastWeekJiaoyiList =new ArrayList<>();
-                    for(String  ds:lastDste){
-                        LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel,ds));
-                        Log.d("LastWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel,ds)+ "  ");
+                    List<String> lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
+                    List<Double> LastWeekJiaoyiList = new ArrayList<>();
+                    for (String ds : lastDste) {
+                        LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel, ds));
+                        Log.d("LastWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel, ds) + "  ");
                     }
-
 
 
                     if (LastWeekJiaoyiList != null && LastWeek7KeliuList != null) {
@@ -952,7 +964,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                 LastWeek7Keliudangjie.add(0f);
                                 Log.d("wwwllllll", " >>>>" + 0.0 + " ");
                             }
-                            Log.d("LastWeekJiaoyiList","");
+                            Log.d("LastWeekJiaoyiList", "");
                         }
                     }
                     for (Float f : LastWeek7Keliudangjie) {
@@ -999,12 +1011,11 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                                 @Override
                                 public void onDataNotAvaliable() {
-                                    Log.d("Month30KeliuList","onDataNotAvaliable");
+                                    Log.d("Month30KeliuList", "onDataNotAvaliable");
                                 }
                             });
                         }
                     });
-
 
 
                     break;
@@ -1050,14 +1061,14 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     break;
                 case 212:
-                    List<Double> benMonthJiaoyiList =new ArrayList<>();
-                    Log.d("benMonthJiaoyiList", Month30KeliuList.size()+"   "+monthDateStrList.size()+ ">>>>  ");
-                    for(String  ds:monthDateStrList){
-                        Double  transAmout= coupterUtil.toDayAmountZong(mTransDataModel,ds);
+                    List<Double> benMonthJiaoyiList = new ArrayList<>();
+                    Log.d("benMonthJiaoyiList", Month30KeliuList.size() + "   " + monthDateStrList.size() + ">>>>  ");
+                    for (String ds : monthDateStrList) {
+                        Double transAmout = coupterUtil.toDayAmountZong(mTransDataModel, ds);
                         benMonthJiaoyiList.add(transAmout);
-                    Log.d("benMonthJiaoyiList", transAmout+"");
+                        Log.d("benMonthJiaoyiList", transAmout + "");
                     }
-                   List<Float> Month30Keliudangjie = new ArrayList<>();
+                    List<Float> Month30Keliudangjie = new ArrayList<>();
 
 
                     if (benMonthJiaoyiList != null && Month30KeliuList != null) {
@@ -1073,7 +1084,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                 Month30Keliudangjie.add(0f);
                                 Log.d("wwwMMMM", " >>>>" + 0.0 + " ");
                             }
-                            Log.d("Month30Keliudangjie","");
+                            Log.d("Month30Keliudangjie", "");
                         }
                     }
                     for (Float f : Month30Keliudangjie) {
@@ -1081,14 +1092,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     }
 
 
-                    List<Double> LastMonthJiaoyiList =new ArrayList<>();
-                    Log.d("LastMonthJiaoyiList", LastMonth30KeliuList.size()+"   "+LastmonthDateStrList.size()+ ">>>>  ");
-                    for(String  ds:LastmonthDateStrList){
-                        Double  transAmout= coupterUtil.toDayAmountZong(mTransDataModel,ds);
+                    List<Double> LastMonthJiaoyiList = new ArrayList<>();
+                    Log.d("LastMonthJiaoyiList", LastMonth30KeliuList.size() + "   " + LastmonthDateStrList.size() + ">>>>  ");
+                    for (String ds : LastmonthDateStrList) {
+                        Double transAmout = coupterUtil.toDayAmountZong(mTransDataModel, ds);
                         LastMonthJiaoyiList.add(transAmout);
-                        Log.d("LastMonthJiaoyiList", transAmout+"");
+                        Log.d("LastMonthJiaoyiList", transAmout + "");
                     }
-
 
 
                     if (LastMonthJiaoyiList != null && LastMonth30KeliuList != null) {
@@ -1104,7 +1114,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                 LastMonth30Keliudangjie.add(0f);
                                 Log.d("LastMonth30Keliudangjie", " >>>>" + 0.0 + " ");
                             }
-                            Log.d("LastMonth30Keliudangjie","");
+                            Log.d("LastMonth30Keliudangjie", "");
                         }
                     }
                     for (Float f : LastMonth30Keliudangjie) {
@@ -1112,7 +1122,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     }
 
                     break;
+                case 44:
+                    Double timeAreaAmount = coupterUtil.toDayTwoAmountZong(mTransDataModel, startDate, endDate);
+                    tariMoneyZong.setText(timeAreaAmount + "");
+                    jiaoyiLinear.setVisibility(View.INVISIBLE);
+                    break;
                 case 55:
+                    jiaoyiLinear.setVisibility(View.VISIBLE);
                     List<Bundle> dd = mTransDataModel.get(startDate + " 00:00:00", startDate + " 23:59:00");
                     moneyZong = 0f;
                     for (Bundle d : dd) {
@@ -1253,11 +1269,11 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     Log.d("WeekStrPricezong", keliuZongWeek + "");
 
 
-                    if(isFistCreat){
+                    if (isFistCreat) {
                         handler.sendEmptyMessage(1000);//客流交易趋势图 初始化日的数据，避免用时耗时
                         handler.sendEmptyMessage(100);//初始化周的数据，避免用时耗时
                         handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
-                        isFistCreat=false;
+                        isFistCreat = false;
                     }
 
 
