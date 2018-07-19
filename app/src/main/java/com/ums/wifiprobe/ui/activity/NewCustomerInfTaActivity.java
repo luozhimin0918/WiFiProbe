@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.ums.desktopmanager.IBehavior;
+import com.ums.desktopmanager.behaviorhelper.BehaviorHelper;
 import com.ums.wifiprobe.AppProtocolInfo;
 import com.ums.wifiprobe.R;
 import com.ums.wifiprobe.app.DataBaseInitWorkTask;
@@ -71,12 +73,13 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
             finish();
             return;
         }
+        BehaviorHelper.INSTANCE.bindService(getApplicationContext());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        BehaviorHelper.INSTANCE.unbindService(getApplicationContext());
     }
 
     @Override
@@ -170,6 +173,11 @@ public class NewCustomerInfTaActivity extends NewBaseActivity implements View.On
 
     @Override
     public void onTabSelect(int position) {
+        if(position==1){//点击tab 客流交易数据
+            //记录 头部tab 一级目录
+            IBehavior funA = new IBehavior(this, "客流交易数据头部tab");
+            BehaviorHelper.INSTANCE.collectBehavior(funA);
+        }
 
     }
 

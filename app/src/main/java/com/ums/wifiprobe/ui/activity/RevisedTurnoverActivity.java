@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ums.desktopmanager.IBehavior;
+import com.ums.desktopmanager.behaviorhelper.BehaviorHelper;
 import com.ums.wifiprobe.R;
 import com.ums.wifiprobe.eventbus.MessageEvent;
 import com.ums.wifiprobe.ui.customview.OnDialogCloseListener;
@@ -54,10 +56,12 @@ public class RevisedTurnoverActivity extends NewBaseActivity implements View.OnC
     TextView xiuzhenBulieStr;
     @BindView(R.id.zhandiMianji)
     TextView zhandiMianji;
-
+    IBehavior iBehavior;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+         iBehavior = (IBehavior)intent.getParcelableExtra("IBehavior");
     }
 
     @Override
@@ -104,6 +108,8 @@ public class RevisedTurnoverActivity extends NewBaseActivity implements View.OnC
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(b){
+                    iBehavior.setSecondMenu("修正金额");
+                    BehaviorHelper.INSTANCE.collectBehavior(iBehavior);
                     isEditXiuZhen=true;
                 }else{
                     isEditXiuZhen=false;
@@ -111,7 +117,24 @@ public class RevisedTurnoverActivity extends NewBaseActivity implements View.OnC
 
             }
         });
-
+       editQueryBilie.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View view, boolean b) {
+               if(b){
+                   iBehavior.setSecondMenu("修正幅度");
+                   BehaviorHelper.INSTANCE.collectBehavior(iBehavior);
+               }
+           }
+       });
+      editQueryMianji.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+          @Override
+          public void onFocusChange(View view, boolean b) {
+              if(b){
+                  iBehavior.setSecondMenu("录入商户面积");
+                  BehaviorHelper.INSTANCE.collectBehavior(iBehavior);
+              }
+          }
+      });
 
     }
     TextWatcher watcherXiu = new TextWatcher() {

@@ -63,6 +63,7 @@
             android:layout_height="0.3dp"></LinearLayout>
         //交易金额All
       <LinearLayout
+            android:id="@+id/jiaoyiChuPingLinear"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:orientation="horizontal"
@@ -257,6 +258,7 @@
 
         //客流数量All
         <LinearLayout
+            android:id="@+id/keliiuChuPingLinear"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:orientation="horizontal"
@@ -460,6 +462,7 @@
             android:layout_height="0.3dp"></LinearLayout>
         //客流单价All
         <LinearLayout
+            android:id="@+id/dangjiaChuPingLinear"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:orientation="horizontal"

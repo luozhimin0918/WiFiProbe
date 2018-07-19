@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,6 +30,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.ums.desktopmanager.IBehavior;
+import com.ums.desktopmanager.behaviorhelper.BehaviorHelper;
 import com.ums.wifiprobe.R;
 import com.ums.wifiprobe.aidl.TransDataModel;
 import com.ums.wifiprobe.app.ThreadPoolProxyFactory;
@@ -63,7 +66,7 @@ import butterknife.Unbinder;
 /**
  * Created by Administrator on 2015/11/30.
  */
-public class PassengerFlowTraFragment extends Fragment implements OnChartValueSelectedListener {
+public class PassengerFlowTraFragment extends Fragment implements OnChartValueSelectedListener, View.OnTouchListener {
     protected WeakReference<View> mRootView;
     @BindView(R.id.chart_bar_mulp)
     BarChart chartBarMulp;
@@ -124,6 +127,12 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     LinearLayout keliuLinear;
     @BindView(R.id.dangjiaLinear)
     LinearLayout dangjiaLinear;
+    @BindView(R.id.jiaoyiChuPingLinear)
+    LinearLayout jiaoyiChuPingLinear;
+    @BindView(R.id.keliiuChuPingLinear)
+    LinearLayout keliiuChuPingLinear;
+    @BindView(R.id.dangjiaChuPingLinear)
+    LinearLayout dangjiaChuPingLinear;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -169,6 +178,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     }
 
     private void initData() {
+        jiaoyiChuPingLinear.setOnTouchListener(this);
+        keliiuChuPingLinear.setOnTouchListener(this);
+        dangjiaChuPingLinear.setOnTouchListener(this);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
@@ -176,12 +188,21 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 switch (checkedId) {
                     case R.id.radioToday:
                         handler.sendEmptyMessage(0);
+                        //记录 客流交易数据趋势日按钮一级目录
+                        IBehavior funA = new IBehavior(mContext, "日按钮客流交易数据趋势");
+                        BehaviorHelper.INSTANCE.collectBehavior(funA);
                         break;
                     case R.id.radioWeek:
                         handler.sendEmptyMessage(1);
+                        //记录 客流交易数据趋势周按钮一级目录
+                        IBehavior funB = new IBehavior(mContext, "周按钮客流交易数据趋势");
+                        BehaviorHelper.INSTANCE.collectBehavior(funB);
                         break;
                     case R.id.radioMonth:
                         handler.sendEmptyMessage(2);
+                        //记录 客流交易数据趋势月按钮一级目录
+                        IBehavior funC = new IBehavior(mContext, "月按钮客流交易数据趋势");
+                        BehaviorHelper.INSTANCE.collectBehavior(funC);
                         break;
                 }
             }
@@ -202,6 +223,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             @Override
             public void onClick(View view) {
                 showDatePickerStart();
+                //记录 时间选择按钮startTime 一级目录
+                IBehavior funA = new IBehavior(mContext, "时间选择按钮startTime");
+                BehaviorHelper.INSTANCE.collectBehavior(funA);
 //                Log.d("Frag", TimeUtils.getLastTimeInterval(textString));
               /*  // 最后一个false表示不显示日期，如果要显示日期，最后参数可以是true或者不用输入
                 new DoubleDatePickerDialog(getContext(), 0, new DoubleDatePickerDialog.OnDateSetListener() {
@@ -222,6 +246,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             @Override
             public void onClick(View view) {
                 showDatePickerEnd();
+                //记录 时间选择按钮endTime 一级目录
+                IBehavior funA = new IBehavior(mContext, "时间选择按钮endTime");
+                BehaviorHelper.INSTANCE.collectBehavior(funA);
             }
         });
 
@@ -664,11 +691,15 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.chang_Tari_button:
+                //记录 点击修正交易额 一级目录
+                IBehavior funA = new IBehavior(mContext, "点击修正交易额");
+                BehaviorHelper.INSTANCE.collectBehavior(funA);
                 Intent intent = new Intent(getContext(), RevisedTurnoverActivity.class);
                 intent.putExtra("xiuzhenNumStr", xiuzhenNumStr);
                 intent.putExtra("moneyZong", moneyZong);
                 intent.putExtra("xiuzhenBulieStr", xiuzhenBulieStr);
                 intent.putExtra("zhandiMianji", zhandiMianji);
+                intent.putExtra("IBehavior", funA);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.activity_anim3, R.anim.activity_out1);
                 break;
@@ -1368,4 +1399,31 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
             }
         }
     };
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+      switch (view.getId()){
+          case R.id.jiaoyiChuPingLinear:
+              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+              IBehavior funA = new IBehavior(mContext, "交易金额横向分图");
+              BehaviorHelper.INSTANCE.collectBehavior(funA);
+              break;
+          case R.id.keliiuChuPingLinear:
+              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+              IBehavior funB = new IBehavior(mContext, "客流数量横向分图");
+              BehaviorHelper.INSTANCE.collectBehavior(funB);
+              break;
+          case R.id.dangjiaChuPingLinear:
+              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+              IBehavior funC = new IBehavior(mContext, "客流单价横向分图");
+              BehaviorHelper.INSTANCE.collectBehavior(funC);
+              break;
+
+      }
+
+
+
+        return false;
+    }
 }
