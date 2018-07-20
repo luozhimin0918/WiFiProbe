@@ -953,8 +953,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> dste = TimeUtils.getTimeIntervallList(curDate);
                     List<Double> benWeekJiaoyiList = new ArrayList<>();
                     for (String ds : dste) {
-                        benWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel, ds));
-                        Log.d("benWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel, ds) + "  ");
+                        Double dsTemp=coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                        benWeekJiaoyiList.add(dsTemp);
+                        Log.d("benWeekJiaoyiList", dsTemp+ "  ");
                     }
 
 
@@ -981,8 +982,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
                     List<Double> LastWeekJiaoyiList = new ArrayList<>();
                     for (String ds : lastDste) {
-                        LastWeekJiaoyiList.add(coupterUtil.toDayAmountZong(mTransDataModel, ds));
-                        Log.d("LastWeekJiaoyiList", coupterUtil.toDayAmountZong(mTransDataModel, ds) + "  ");
+                        Double daTempLa=coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                        LastWeekJiaoyiList.add(daTempLa);
+                        Log.d("LastWeekJiaoyiList", daTempLa + "  ");
                     }
 
 
@@ -1300,8 +1302,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
                     List<Double> weektranMoney = new ArrayList<>();//上周每一天的交易额
                     for (String ww : weekListStr) {
-                        weektranMoney.add(coupterUtil.toDayAmountZong(mTransDataModel, ww));
-                        Log.d("WeekStr", ww + "  " + coupterUtil.toDayAmountZong(mTransDataModel, ww));
+                        Double wwTemp =coupterUtil.toDayAmountZong(mTransDataModel, ww);
+                        weektranMoney.add(wwTemp);
+                        Log.d("WeekStr", ww + "  " + wwTemp);
                     }
                     for (Integer ii : keliuWeekInt) {
                         Log.d("WeekStrInt", ii + "  ");
