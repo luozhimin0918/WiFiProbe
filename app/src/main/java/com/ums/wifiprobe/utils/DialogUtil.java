@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import com.ums.wifiprobe.R;
 import com.ums.wifiprobe.ui.customview.CommonDialog;
 import com.ums.wifiprobe.ui.customview.CommonDialog2;
+import com.ums.wifiprobe.ui.customview.CommonDialog3;
 import com.ums.wifiprobe.ui.customview.DownloadDialog;
 import com.ums.wifiprobe.ui.customview.OnDialogCloseListener;
 
@@ -179,6 +180,14 @@ public class DialogUtil {
 		commonDialog2.setCancelable(true);
 		commonDialog2.setOnCloseListener(listener);
 		commonDialog2.show();
+	}
+	private static CommonDialog3 commonDialog3;
+	public static void showCommonDialog3(Context context,String content,OnDialogCloseListener listener){
+		commonDialog3 = new CommonDialog3(context);
+		commonDialog3.setContent(content);
+		commonDialog3.setCancelable(true);
+		commonDialog3.setOnCloseListener(listener);
+		commonDialog3.show();
 	}
 	public static void hideCommonDialog2(){
 		if(commonDialog2!=null){

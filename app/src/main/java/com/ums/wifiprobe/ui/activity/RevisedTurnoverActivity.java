@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ums.desktopmanager.IBehavior;
 import com.ums.desktopmanager.behaviorhelper.BehaviorHelper;
@@ -227,28 +228,39 @@ public class RevisedTurnoverActivity extends NewBaseActivity implements View.OnC
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ChangSubmit:
-                String editQueryStr = editQuery.getText().toString();
-                String editQueryBilieStr = editQueryBilie.getText().toString();
-                String editQueryMianjiStr = editQueryMianji.getText().toString();
-                if (editQueryStr != null && !editQueryStr.equals("")) {
-                    EventBus.getDefault().post(new MessageEvent(editQueryStr, null, null));
-                }
-                if (editQueryBilieStr != null && !editQueryBilieStr.equals("")) {
-                    EventBus.getDefault().post(new MessageEvent(null, editQueryBilieStr, null));
-                }
-                if (editQueryMianjiStr != null && !editQueryMianjiStr.equals("")) {
-                    EventBus.getDefault().post(new MessageEvent(null, null, editQueryMianjiStr));
-                }
+                final String editQueryStr = editQuery.getText().toString();
+                final String editQueryBilieStr = editQueryBilie.getText().toString();
+                final String editQueryMianjiStr = editQueryMianji.getText().toString();
 
-                //提醒从应用市场下载安装
-                DialogUtil.showCommonDialog2(this, "   亲爱的老板，您上次预估的修正幅度为30%，确定要将修正幅度改为-30%？", new OnDialogCloseListener() {
-                    @Override
-                    public void onClick(Dialog dialog, boolean confirm) {
-                        if (confirm) {
 
+
+                    if (editQueryBilieStr != null && !editQueryBilieStr.equals("")) {
+                    //提醒从应用市场下载安装
+                    DialogUtil.showCommonDialog3(this, "        亲爱的老板，您上次预估的修正幅度为" + XiuzhenBulieStr + "%，确定要将修正幅度改为" + editQueryBilieStr + "%？", new OnDialogCloseListener() {
+                        @Override
+                        public void onClick(Dialog dialog, boolean confirm) {
+                            if (confirm) {
+
+                                if (editQueryStr != null && !editQueryStr.equals("")) {
+                                    EventBus.getDefault().post(new MessageEvent(editQueryStr, null, null));
+                                }
+                                if (editQueryBilieStr != null && !editQueryBilieStr.equals("")) {
+                                    EventBus.getDefault().post(new MessageEvent(null, editQueryBilieStr, null));
+                                }
+                                if (editQueryMianjiStr != null && !editQueryMianjiStr.equals("")) {
+                                    EventBus.getDefault().post(new MessageEvent(null, null, editQueryMianjiStr));
+                                }
+
+
+                                finish();
+                            } else {
+                                dialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+                }else{
+                    Toast.makeText(this,"未修改",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.head_back:
                 finish();
