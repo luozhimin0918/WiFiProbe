@@ -1281,7 +1281,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     if (weekZhi != 0) {
                         baidfiWeek = (moneyZong / weekZhi - 1) * 100;
                     } else {
-                        baidfiWeek = moneyZong;//当上周总交易额为零，取当前交易额
+                        baidfiWeek = -100;//当上周总交易额为零，取-100
                     }
 
                     Log.d("www", weekZong + "" + baidfiWeek + "%");
@@ -1436,7 +1436,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                                     if (curValue != 0) {
                                         keliuBi = (keliuNumInt / (curValue / 7) - 1) * 100;
                                     } else {
-                                        keliuBi = keliuNumInt;//当上周客流总和为零时，取客流数量为百分比
+                                        keliuBi = -100;//当上周客流总和为零时，取-100为百分比
                                     }
 
 
