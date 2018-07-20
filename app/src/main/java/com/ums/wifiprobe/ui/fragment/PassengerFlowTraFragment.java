@@ -1349,7 +1349,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     if (isFistCreat) {
                         handler.sendEmptyMessage(1000);//客流交易趋势图 初始化日的数据，避免用时耗时
                         handler.sendEmptyMessage(100);//初始化周的数据，避免用时耗时
-                        handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
+//                        handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
                         isFistCreat = false;
                     }
 
