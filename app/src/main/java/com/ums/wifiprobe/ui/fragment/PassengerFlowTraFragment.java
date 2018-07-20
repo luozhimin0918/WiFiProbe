@@ -133,6 +133,18 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     LinearLayout keliiuChuPingLinear;
     @BindView(R.id.dangjiaChuPingLinear)
     LinearLayout dangjiaChuPingLinear;
+    @BindView(R.id.question_mark_money_num)
+    ImageView questionMarkMoneyNum;
+    @BindView(R.id.easy_mess_money_num)
+    LinearLayout easyMessMoneyNum;
+    @BindView(R.id.question_mark_money_chang_num)
+    ImageView questionMarkMoneyChangNum;
+    @BindView(R.id.easy_mess_money_chang_num)
+    LinearLayout easyMessMoneyChangNum;
+    @BindView(R.id.question_mark_ke_price_num)
+    ImageView questionMarkKePriceNum;
+    @BindView(R.id.easy_mess_price_num)
+    LinearLayout easyMessPriceNum;
 
     private View view;
     private final static String[] weekDays = new String[]{"12-01", "12-02", "12-03", "12-04", "12-05", "12-06", "12-07"};
@@ -687,7 +699,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
     }
 
-    @OnClick({R.id.chang_Tari_button, R.id.easy_mess_ke_num})
+    @OnClick({R.id.chang_Tari_button, R.id.easy_mess_ke_num, R.id.easy_mess_money_num, R.id.easy_mess_price_num, R.id.easy_mess_money_chang_num})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.chang_Tari_button:
@@ -708,6 +720,48 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                         .setLayoutResourceId(R.layout.layout_tip_text)
                         .setBackgroundColor(getContext().getResources().getColor(R.color.background_color_black))
                         .setLocationByAttachedView(question_mark_Keliu_num)
+                        .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                        .setAnimationAlphaShow(600, 0.0f, 1.0f)
+                        .setAnimationAlphaDismiss(600, 1.0f, 0.0f)
+                        .setTouchOutsideDismiss(true)
+                        .setMatchParent(false)
+                        .setMarginLeftAndRight(24, 24)
+                        .setOutsideColor(getContext().getResources().getColor(R.color.outside_color_trans))
+                        .show();
+                break;
+            case R.id.easy_mess_money_num:
+                new EasyDialog(getContext())
+                        .setLayoutResourceId(R.layout.layout_tip_text_money)
+                        .setBackgroundColor(getContext().getResources().getColor(R.color.background_color_black))
+                        .setLocationByAttachedView(questionMarkMoneyNum)
+                        .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                        .setAnimationAlphaShow(600, 0.0f, 1.0f)
+                        .setAnimationAlphaDismiss(600, 1.0f, 0.0f)
+                        .setTouchOutsideDismiss(true)
+                        .setMatchParent(false)
+                        .setMarginLeftAndRight(24, 24)
+                        .setOutsideColor(getContext().getResources().getColor(R.color.outside_color_trans))
+                        .show();
+                break;
+            case R.id.easy_mess_price_num:
+                new EasyDialog(getContext())
+                        .setLayoutResourceId(R.layout.layout_tip_text_ke_price)
+                        .setBackgroundColor(getContext().getResources().getColor(R.color.background_color_black))
+                        .setLocationByAttachedView(questionMarkKePriceNum)
+                        .setGravity(EasyDialog.GRAVITY_BOTTOM)
+                        .setAnimationAlphaShow(600, 0.0f, 1.0f)
+                        .setAnimationAlphaDismiss(600, 1.0f, 0.0f)
+                        .setTouchOutsideDismiss(true)
+                        .setMatchParent(false)
+                        .setMarginLeftAndRight(24, 24)
+                        .setOutsideColor(getContext().getResources().getColor(R.color.outside_color_trans))
+                        .show();
+                break;
+            case R.id.easy_mess_money_chang_num:
+                new EasyDialog(getContext())
+                        .setLayoutResourceId(R.layout.layout_tip_text_money_chang)
+                        .setBackgroundColor(getContext().getResources().getColor(R.color.background_color_black))
+                        .setLocationByAttachedView(questionMarkMoneyChangNum)
                         .setGravity(EasyDialog.GRAVITY_BOTTOM)
                         .setAnimationAlphaShow(600, 0.0f, 1.0f)
                         .setAnimationAlphaDismiss(600, 1.0f, 0.0f)
@@ -953,9 +1007,9 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> dste = TimeUtils.getTimeIntervallList(curDate);
                     List<Double> benWeekJiaoyiList = new ArrayList<>();
                     for (String ds : dste) {
-                        Double dsTemp=coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                        Double dsTemp = coupterUtil.toDayAmountZong(mTransDataModel, ds);
                         benWeekJiaoyiList.add(dsTemp);
-                        Log.d("benWeekJiaoyiList", dsTemp+ "  ");
+                        Log.d("benWeekJiaoyiList", dsTemp + "  ");
                     }
 
 
@@ -982,7 +1036,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
                     List<Double> LastWeekJiaoyiList = new ArrayList<>();
                     for (String ds : lastDste) {
-                        Double daTempLa=coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                        Double daTempLa = coupterUtil.toDayAmountZong(mTransDataModel, ds);
                         LastWeekJiaoyiList.add(daTempLa);
                         Log.d("LastWeekJiaoyiList", daTempLa + "  ");
                     }
@@ -1302,7 +1356,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     List<String> weekListStr = TimeUtils.getLastWeekIntervalArray(startDate);
                     List<Double> weektranMoney = new ArrayList<>();//上周每一天的交易额
                     for (String ww : weekListStr) {
-                        Double wwTemp =coupterUtil.toDayAmountZong(mTransDataModel, ww);
+                        Double wwTemp = coupterUtil.toDayAmountZong(mTransDataModel, ww);
                         weektranMoney.add(wwTemp);
                         Log.d("WeekStr", ww + "  " + wwTemp);
                     }
@@ -1406,25 +1460,24 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
-      switch (view.getId()){
-          case R.id.jiaoyiChuPingLinear:
-              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
-              IBehavior funA = new IBehavior(mContext, "交易金额横向分图");
-              BehaviorHelper.INSTANCE.collectBehavior(funA);
-              break;
-          case R.id.keliiuChuPingLinear:
-              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
-              IBehavior funB = new IBehavior(mContext, "客流数量横向分图");
-              BehaviorHelper.INSTANCE.collectBehavior(funB);
-              break;
-          case R.id.dangjiaChuPingLinear:
-              //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
-              IBehavior funC = new IBehavior(mContext, "客流单价横向分图");
-              BehaviorHelper.INSTANCE.collectBehavior(funC);
-              break;
+        switch (view.getId()) {
+            case R.id.jiaoyiChuPingLinear:
+                //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+                IBehavior funA = new IBehavior(mContext, "交易金额横向分图");
+                BehaviorHelper.INSTANCE.collectBehavior(funA);
+                break;
+            case R.id.keliiuChuPingLinear:
+                //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+                IBehavior funB = new IBehavior(mContext, "客流数量横向分图");
+                BehaviorHelper.INSTANCE.collectBehavior(funB);
+                break;
+            case R.id.dangjiaChuPingLinear:
+                //记录 交易金额/客流数量/客流单价三张横向分图 一级目录
+                IBehavior funC = new IBehavior(mContext, "客流单价横向分图");
+                BehaviorHelper.INSTANCE.collectBehavior(funC);
+                break;
 
-      }
-
+        }
 
 
         return false;

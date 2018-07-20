@@ -89,6 +89,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
                     <LinearLayout
+                        android:id="@+id/easy_mess_money_num"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:layout_width="wrap_content"
@@ -100,6 +101,7 @@
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content" />
                         <ImageView
+                            android:id="@+id/question_mark_money_num"
                             android:layout_marginLeft="5dp"
                             android:src="@mipmap/icon_question_mark"
                             android:layout_width="wrap_content"
@@ -148,6 +150,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
                   <LinearLayout
+                      android:id="@+id/easy_mess_money_chang_num"
                       android:layout_weight="1"
                       android:gravity="center_vertical"
                       android:layout_width="wrap_content"
@@ -159,6 +162,7 @@
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content" />
                       <ImageView
+                          android:id="@+id/question_mark_money_chang_num"
                           android:layout_marginLeft="5dp"
                           android:src="@mipmap/icon_question_mark"
                           android:layout_width="wrap_content"
@@ -488,6 +492,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <LinearLayout
+                        android:id="@+id/easy_mess_price_num"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:layout_width="wrap_content"
@@ -499,6 +504,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <ImageView
+                            android:id="@+id/question_mark_ke_price_num"
                             android:layout_marginLeft="5dp"
                             android:src="@mipmap/icon_question_mark"
                             android:layout_width="wrap_content"
