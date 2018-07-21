@@ -672,10 +672,19 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
 
             }
-            if(messageEvent.getMonth30Keliudangjie()!=null&&messageEvent.getLastMonth30Keliudangjie()!=null){
+            if(messageEvent.getMonth30Keliudangjie()!=null&&messageEvent.getLastMonth30Keliudangjie()!=null&&messageEvent.getMonth30Keliudangjie().size()>0){
                 Month30Keliudangjie=messageEvent.getMonth30Keliudangjie();
                 LastMonth30Keliudangjie=messageEvent.getLastMonth30Keliudangjie();
-                 Log.d("MEssssMonth" ,messageEvent.getMonth30Keliudangjie().size()+"   "+ messageEvent.getLastMonth30Keliudangjie().size());
+                monthDateStrList=messageEvent.getMonthDateStrList();
+                LastmonthDateStrList=messageEvent.getLastmonthDateStrList();
+                 Log.d("MEssssMonth" ,Month30Keliudangjie.size()+"   "+ LastMonth30Keliudangjie.size()
+                 +"   "+monthDateStrList.size()+"    "+LastmonthDateStrList.size());
+            }
+
+            if(messageEvent.getWeek7Keliudangjie()!=null&&messageEvent.getLastWeek7Keliudangjie()!=null&&messageEvent.getWeek7Keliudangjie().size()>0){
+                Week7Keliudangjie=messageEvent.getWeek7Keliudangjie();
+                LastWeek7Keliudangjie=messageEvent.getLastWeek7Keliudangjie();
+                Log.d("MEssssMonth" ,Week7Keliudangjie.size()+"   "+ LastWeek7Keliudangjie.size());
             }
 
 
@@ -1408,7 +1417,7 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
                     if (isFistCreat) {
                         handler.sendEmptyMessage(1000);//客流交易趋势图 初始化日的数据，避免用时耗时
-                        handler.sendEmptyMessage(100);//初始化周的数据，避免用时耗时
+//                        handler.sendEmptyMessage(100);//初始化周的数据，避免用时耗时
 //                        handler.sendEmptyMessage(200);//初始化月的数据，避免用时耗时
                         //启动服务
                         mContext.startService(new Intent(mContext, MyIntentService.class));

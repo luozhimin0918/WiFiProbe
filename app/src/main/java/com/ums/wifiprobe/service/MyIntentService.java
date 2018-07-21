@@ -42,6 +42,12 @@ import java.util.List;
 
         List<Float> LastMonth30Keliudangjie = new ArrayList<>();
         List<Float> Month30Keliudangjie = new ArrayList<>();
+
+        List<Double> Week7KeliuList = new ArrayList<>();//本周7天的客流量
+        List<Double> LastWeek7KeliuList = new ArrayList<>();//上周7天的客流量
+
+        List<Float> Week7Keliudangjie = new ArrayList<>();
+        List<Float> LastWeek7Keliudangjie = new ArrayList<>();
         /**
          * 通过构造方法，传入子线程的名字
          * 但是这里必须要创建一个无参的构造方法
@@ -57,6 +63,140 @@ import java.util.List;
         @Override
         protected void onHandleIntent(Intent intent) {
             Log.d("MyIntentSer", "子线程开始工作");
+
+
+            ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                @Override
+                public void run() {
+                    String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(curDate)) + "-" + TimeUtils.getWeeksOfYear(curDate);
+                    ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", curDate, new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                        @Override
+                        public void onTasksLoaded(List<MacTotalInfo> list) {
+                            if (list != null && list.size() > 0) {
+                                for (int i = 0; i < list.size(); i++) {
+                                    int curValue = 0;
+
+                                    List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                    if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                        for (RssiInfo info : nowRssiInfos) {
+                                            if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                curValue += info.getTotaNumber();
+                                            }
+                                        }
+                                    }
+                                    Week7KeliuList.add(Double.parseDouble(curValue + ""));
+                                    Log.d("Week7KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onDataNotAvaliable() {
+
+                        }
+                    });
+                }
+            });
+
+            ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
+                @Override
+                public void run() {
+                    String scaleValue = TimeUtils.getYear(TimeUtils.getTimeMillions(TimeUtils.getSundayDate(curDate, -1))) + "-" + (TimeUtils.getWeeksOfYear(curDate) - 1);
+                    ProbeTotalDataRepository.getInstance().getTasks(scaleValue, "week", TimeUtils.getSundayDate(curDate, -1), new DataResource.LoadTasksCallback<MacTotalInfo>() {
+
+                        @Override
+                        public void onTasksLoaded(List<MacTotalInfo> list) {
+                            if (list != null && list.size() > 0) {
+                                for (int i = 0; i < list.size(); i++) {
+                                    int curValue = 0;
+
+                                    List<RssiInfo> nowRssiInfos = list.get(i).getRssiInfos();
+
+                                    if (nowRssiInfos != null && nowRssiInfos.size() > 0) {
+                                        for (RssiInfo info : nowRssiInfos) {
+                                            if (info.getMinRssi() == -1000 && info.getMaxRssi() == 0 && info.getIsDistinct()) {
+                                                curValue += info.getTotaNumber();
+                                            }
+                                        }
+                                    }
+                                    LastWeek7KeliuList.add(Double.parseDouble(curValue + ""));
+                                    Log.d("LastWeek7KeliuList", list.get(i).getScaleValue() + "   " + curValue + "  " + "  " + list.get(i).getDate());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onDataNotAvaliable() {
+
+                        }
+                    });
+                }
+            });
+            List<String> dste = TimeUtils.getTimeIntervallList(curDate);
+            List<Double> benWeekJiaoyiList = new ArrayList<>();
+            for (String ds : dste) {
+                Double dsTemp = coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                benWeekJiaoyiList.add(dsTemp);
+                Log.d("benWeekJiaoyiList", dsTemp + "  ");
+            }
+
+
+            if (benWeekJiaoyiList != null && Week7KeliuList != null) {
+                for (int h = 0; h < benWeekJiaoyiList.size(); h++) {
+
+
+                    if (Week7KeliuList.get(h) != 0) {
+                        Double dd = benWeekJiaoyiList.get(h) / Week7KeliuList.get(h);
+                        Log.d("wwwttttt", " >>>>" + dd + " " + Week7KeliuList.get(h));
+                        Week7Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                    } else {
+                        Week7Keliudangjie.add(0f);
+                        Log.d("wwwttttt", " >>>>" + 0.0 + " ");
+                    }
+                    Log.d("benWeekJiaoyiList", "");
+                }
+            }
+            for (Float f : Week7Keliudangjie) {
+                Log.d("benWeekJiaoyiListTwwwww", f + "");
+            }
+
+            List<String> lastDste = TimeUtils.getLastWeekIntervalArray(curDate);
+            List<Double> LastWeekJiaoyiList = new ArrayList<>();
+            for (String ds : lastDste) {
+                Double daTempLa = coupterUtil.toDayAmountZong(mTransDataModel, ds);
+                LastWeekJiaoyiList.add(daTempLa);
+                Log.d("LastWeekJiaoyiList", daTempLa + "  ");
+            }
+
+
+            if (LastWeekJiaoyiList != null && LastWeek7KeliuList != null) {
+                for (int h = 0; h < LastWeekJiaoyiList.size(); h++) {
+
+
+                    if (LastWeek7KeliuList.get(h) != 0) {
+                        Double dd = LastWeekJiaoyiList.get(h) / LastWeek7KeliuList.get(h);
+                        Log.d("wwwllllll", " >>>>" + dd + " " + LastWeek7KeliuList.get(h));
+                        LastWeek7Keliudangjie.add(Float.parseFloat(dd + ""));
+
+                    } else {
+                        LastWeek7Keliudangjie.add(0f);
+                        Log.d("wwwllllll", " >>>>" + 0.0 + " ");
+                    }
+                    Log.d("LastWeekJiaoyiList", "");
+                }
+            }
+            for (Float f : LastWeek7Keliudangjie) {
+                Log.d("LastWeek7Kelijiewwwww", f + "");
+            }
+
+
+            EventBus.getDefault().post(new MessageEvent(Week7Keliudangjie,LastWeek7Keliudangjie));
+
+
+
             ThreadPoolProxyFactory.getQueryThreadPoolProxy().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -125,7 +265,6 @@ import java.util.List;
                                                         benMonthJiaoyiList.add(transAmout);
                                                         Log.d("benMonthJiaoyiList", transAmout + "");
                                                     }
-                                                    List<Float> Month30Keliudangjie = new ArrayList<>();
 
 
                                                     if (benMonthJiaoyiList != null && Month30KeliuList != null) {
@@ -178,7 +317,7 @@ import java.util.List;
                                                         Log.d("LastMonthdangjieTwwwww", f + "");
                                                     }
 
-                                                    EventBus.getDefault().post(new MessageEvent(Month30Keliudangjie, LastMonth30Keliudangjie));
+                                                    EventBus.getDefault().post(new MessageEvent(Month30Keliudangjie, LastMonth30Keliudangjie,monthDateStrList,LastmonthDateStrList));
 
 
                                                 }
