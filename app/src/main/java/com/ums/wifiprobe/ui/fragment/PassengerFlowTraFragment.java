@@ -54,6 +54,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -655,7 +656,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 xiuzhenNumStr = messageEvent.getEditQuery();
                 float editQuertInt = Float.parseFloat(messageEvent.getEditQuery());
                 if (keliuNumInt != 0) {
-                    xiuzhenKeliuPrice.setText(editQuertInt / keliuNumInt + "");
+                    String  ketFormatThree=new DecimalFormat("#.##").format(editQuertInt / keliuNumInt); //结果： 3.14
+                    xiuzhenKeliuPrice.setText( ketFormatThree);
+                }else {
+                    xiuzhenKeliuPrice.setText( 0.0+"");
                 }
 
             }
@@ -669,7 +673,10 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                 //商铺坪效
                 int mianji = Integer.parseInt(messageEvent.getEditQueryMianji());
                 if (mianji != 0) {
-                    shanPuPinxiao.setText((moneyZong / mianji) + "");
+                    String  ketFormat=new DecimalFormat("#.##").format((moneyZong / mianji)); //结果： 3.14
+                    shanPuPinxiao.setText(ketFormat);
+                }else{
+                    shanPuPinxiao.setText(0.0+"");
                 }
 
 
@@ -1274,8 +1281,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     } else {
                         keliuDangjia = 0.0;
                     }
-
-                    keliuPrice.setText(keliuDangjia + "");
+                    String  ketFormat=new DecimalFormat("#.##").format(keliuDangjia); //结果： 3.14
+                    keliuPrice.setText(ketFormat);
                     dangjiaLinear.setVisibility(View.INVISIBLE);
 
 
@@ -1363,7 +1370,8 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
                     //客流单价
                     keliuNum.setText(keliuNumInt + "");
                     if (keliuNumInt != 0) {
-                        keliuPrice.setText((moneyZong / keliuNumInt) + "");
+                        String  ketFormatTwo=new DecimalFormat("#.##").format((moneyZong / keliuNumInt)); //结果： 3.14
+                        keliuPrice.setText( ketFormatTwo);
                     } else {
                         keliuPrice.setText("0");
                     }
