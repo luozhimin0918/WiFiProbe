@@ -14,8 +14,14 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.ums.wifiprobe.R;
+import com.ums.wifiprobe.ui.customview.MyMarkerViewNew;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,6 +208,16 @@ public class BarChartManager {
             barDataSet.setValueTextSize(10f);
             data.addDataSet(barDataSet);
         }
+        data.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+
+                DecimalFormat mFormat;
+                mFormat = new DecimalFormat("###,###,##0.00"); // use one decimal
+                return mFormat.format(value) ;
+            }
+
+        });
         int amount = yValuesList.size();
 
         float groupSpace = 0.62f; //柱状图组之间的间距
@@ -214,8 +230,14 @@ public class BarChartManager {
         xAxis.setAxisMaximum(xValues.size());
         xAxis.setAxisMinimum(0);
         data.groupBars(0, groupSpace, barSpace);
+        MyMarkerViewNew mv = new MyMarkerViewNew(context, R.layout.custom_marker_view_new);
+        mv.setChartView(mBarChart); // For bounds control
+        mBarChart.setMarker(mv); // Set the marker to the chart
+        mBarChart.setDrawValueAboveBar(true);
         mBarChart.setData(data);
         mBarChart.getBarData().setDrawValues(false);//是dataSet的属性，设置是否在图上显示出当前点（柱状图）的值
+        mBarChart.getData().notifyDataChanged();
+        mBarChart.notifyDataSetChanged();
     }
     protected BarData getBarData(List<String> xValues, List<List<Float>> yValuesList) {
         mBarChart.getXAxis().setValueFormatter(new StringAxisValueFormatter(xValues));
