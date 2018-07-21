@@ -317,7 +317,7 @@ import java.util.List;
                                                         Log.d("LastMonthdangjieTwwwww", f + "");
                                                     }
 
-                                                    EventBus.getDefault().post(new MessageEvent(Month30Keliudangjie, LastMonth30Keliudangjie,monthDateStrList,LastmonthDateStrList));
+                                                    EventBus.getDefault().post(new MessageEvent(Month30KeliuList,LastMonth30KeliuList,Month30Keliudangjie, LastMonth30Keliudangjie,monthDateStrList,LastmonthDateStrList));
 
 
                                                 }

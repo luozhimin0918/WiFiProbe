@@ -673,11 +673,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
 
             }
             if(messageEvent.getMonth30Keliudangjie()!=null&&messageEvent.getLastMonth30Keliudangjie()!=null&&messageEvent.getMonth30Keliudangjie().size()>0){
+               Month30KeliuList =messageEvent.getMonth30KeliuList();//本月30天的客流量
+               LastMonth30KeliuList =messageEvent.getLastMonth30KeliuList();//上个月30天的客流量
                 Month30Keliudangjie=messageEvent.getMonth30Keliudangjie();
                 LastMonth30Keliudangjie=messageEvent.getLastMonth30Keliudangjie();
                 monthDateStrList=messageEvent.getMonthDateStrList();
                 LastmonthDateStrList=messageEvent.getLastmonthDateStrList();
-                 Log.d("MEssssMonth" ,Month30Keliudangjie.size()+"   "+ LastMonth30Keliudangjie.size()
+                 Log.d("MEssssMonth" ,Month30KeliuList.size()+"   "+LastMonth30KeliuList.size()+"   "+ Month30Keliudangjie.size()+"   "+ LastMonth30Keliudangjie.size()
                  +"   "+monthDateStrList.size()+"    "+LastmonthDateStrList.size());
             }
 

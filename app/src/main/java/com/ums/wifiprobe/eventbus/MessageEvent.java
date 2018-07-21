@@ -19,6 +19,9 @@ public class MessageEvent {
     List<String> monthDateStrList = new ArrayList<>();//本月30天的日期字符串list
     List<String> LastmonthDateStrList = new ArrayList<>();//上个月30天的日期字符串list
 
+    List<Double> Month30KeliuList = new ArrayList<>();//本月30天的客流量
+    List<Double> LastMonth30KeliuList = new ArrayList<>();//上个月30天的客流量
+
 
     List<Float> Week7Keliudangjie = new ArrayList<>();
     List<Float> LastWeek7Keliudangjie = new ArrayList<>();
@@ -28,16 +31,34 @@ public class MessageEvent {
         this.editQueryBilie=editQueryBilie;
         this.editQueryMianji=editQueryMianji;
     }
-    public MessageEvent( List<Float> Month30Keliudangjie  , List<Float> LastMonth30Keliudangjie , List<String> monthDateStrList ,List<String> LastmonthDateStrList){
+    public MessageEvent( List<Double> Month30KeliuList,List<Double> LastMonth30KeliuList, List<Float> Month30Keliudangjie  , List<Float> LastMonth30Keliudangjie , List<String> monthDateStrList ,List<String> LastmonthDateStrList){
         this.Month30Keliudangjie=Month30Keliudangjie;
         this.LastMonth30Keliudangjie=LastMonth30Keliudangjie;
         this.monthDateStrList=monthDateStrList;
         this.LastmonthDateStrList=LastmonthDateStrList;
+        this.Month30KeliuList =Month30KeliuList;//本月30天的客流量
+        this.LastMonth30KeliuList = LastMonth30KeliuList;//上个月30天的客流量
     }
     public MessageEvent(  List<Float> Week7Keliudangjie  , List<Float> LastWeek7Keliudangjie){
 
      this.Week7Keliudangjie =Week7Keliudangjie;
      this.LastWeek7Keliudangjie = LastWeek7Keliudangjie;
+    }
+
+    public List<Double> getMonth30KeliuList() {
+        return Month30KeliuList;
+    }
+
+    public void setMonth30KeliuList(List<Double> month30KeliuList) {
+        Month30KeliuList = month30KeliuList;
+    }
+
+    public List<Double> getLastMonth30KeliuList() {
+        return LastMonth30KeliuList;
+    }
+
+    public void setLastMonth30KeliuList(List<Double> lastMonth30KeliuList) {
+        LastMonth30KeliuList = lastMonth30KeliuList;
     }
 
     public List<Float> getWeek7Keliudangjie() {
