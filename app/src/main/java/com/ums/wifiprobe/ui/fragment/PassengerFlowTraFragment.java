@@ -710,10 +710,11 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         xAxis.removeAllLimitLines();
 //        xAxis.addLimitLine(xLimitLine);
         if (h != null) {
-            int index = (int) e.getX();
-            BarEntry barEntry = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(0)).getValues().get(index);
-            BarEntry barEntryTwo = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(1)).getValues().get(index);
-            Log.d("OnValueSelected",barEntry.getY()+"  "+barEntryTwo.getY());
+//            int index = (int) e.getX();
+//            BarEntry barEntry = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(0)).getValues().get(index);
+//            BarEntry barEntryTwo = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(1)).getValues().get(index);
+//            Log.d("OnValueSelected",index+"   "+barEntry.getY()+"  "+barEntryTwo.getY());
+//            Log.d("OnValueSelected",index+"   ");
         }
 
     }
