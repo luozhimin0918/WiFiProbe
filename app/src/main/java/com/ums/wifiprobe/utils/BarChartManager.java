@@ -213,7 +213,8 @@ public class BarChartManager {
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
 
                 DecimalFormat mFormat;
-                mFormat = new DecimalFormat("###,###,##0.00"); // use one decimal
+//                mFormat = new DecimalFormat("###,###,##0.00"); // use one decimal
+                mFormat= new DecimalFormat("#.###"); //结果： 3.14
                 return mFormat.format(value) ;
             }
 
