@@ -26,6 +26,8 @@ import com.codbking.widget.bean.DateType;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -706,8 +708,13 @@ public class PassengerFlowTraFragment extends Fragment implements OnChartValueSe
         xLimitLine.setLineWidth(1f);
         XAxis xAxis = chartBarMulp.getXAxis();
         xAxis.removeAllLimitLines();
-        xAxis.addLimitLine(xLimitLine);
-
+//        xAxis.addLimitLine(xLimitLine);
+        if (h != null) {
+            int index = (int) e.getX();
+            BarEntry barEntry = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(0)).getValues().get(index);
+            BarEntry barEntryTwo = ((BarDataSet) chartBarMulp.getData().getDataSetByIndex(1)).getValues().get(index);
+            Log.d("OnValueSelected",barEntry.getY()+"  "+barEntryTwo.getY());
+        }
 
     }
 
